@@ -272,7 +272,7 @@ public class Jugador extends ObservableJugadores implements Serializable {
 		try {
 			bd = new BDJugador();
 			bd.getConnection();
-			bd.crearJugador(dni, nombre, apellido, edad);
+			//bd.crearJugador(dni, nombre, apellido, edad);
 			bd.crearJugadorParaAprobar(dni, partido,this.getDNI());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

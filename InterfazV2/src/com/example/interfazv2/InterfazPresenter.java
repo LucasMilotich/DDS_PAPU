@@ -225,8 +225,20 @@ public class InterfazPresenter implements InterfazVistas.ViewListener {
 					.setMotivo("Penalizado por baja sin proponer reemplazo");
 			penalizacion.setJugador(jugador);
 			penalizacion.setPartido(partido);
-			// partido.getListaInfracciones().add(penalizacion);
-			// partido.setCerrado(false);
+			jugador.getPenalizaciones().add(penalizacion);
+			
+			BDPenalizaciones bd = new BDPenalizaciones();
+			try {
+				bd.getConnection();
+				bd.agregarPenalizacion(penalizacion.getMotivo(), jugador, partido);
+				Notification.show("La penalización ha sido creada");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				Notification.show("Hubo un error", Type.ERROR_MESSAGE);
+			}
+			
+			
 			this.jugador.bajaDeUn(partido);
 			Notification.show("Has sido dado de baja y serás multado");
 		}
