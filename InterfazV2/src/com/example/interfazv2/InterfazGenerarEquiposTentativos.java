@@ -63,7 +63,7 @@ public class InterfazGenerarEquiposTentativos extends VerticalLayout implements
 				"Metodo de ponderación de jugadores");
 		final ComboBox metodoDeOrdenamiento = new ComboBox(
 				"Metodo de ordenamiento de jugadores");
-
+		final Window vistaJugador = new Window("Datos de jugador");
 		Button cambiarNivelDeJuego = new Button("Cambiar nivel de juego");
 		final Window pantallaNivelJuego = new Window("Nivel de juego");
 		VerticalLayout layoutPantallaNivelJuego = new VerticalLayout();
@@ -103,7 +103,9 @@ public class InterfazGenerarEquiposTentativos extends VerticalLayout implements
 		 * panel3.addComponents(); panel4.addComponents();
 		 */
 		panel2.addComponents(panel3, equipoA, panel4, equipoB);
-
+		vistaJugador.center();
+		vistaJugador.setHeight("80%");
+		vistaJugador.setWidth("70%");
 		partidos.setItemCaptionPropertyId("nombre");
 		listaDeJugadoresPorPartido.setSelectable(true);
 
@@ -129,7 +131,20 @@ public class InterfazGenerarEquiposTentativos extends VerticalLayout implements
 						" Nombre", "Apellido", "Edad", "Nivel de juego" });
 			}
 		});
-
+		
+		listaDeJugadoresPorPartido.addValueChangeListener(new ValueChangeListener() {
+			
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				// TODO Auto-generated method stub
+				listener.setJugador((Jugador) listaDeJugadoresPorPartido.getValue());
+				final InterfazDatosJugador InterfazDatosJugador = new InterfazDatosJugador();
+				InterfazDatosJugador.addListener(listener);
+				listener.setVista(InterfazDatosJugador);
+				vistaJugador.setContent(InterfazDatosJugador.InterfazDatosJugador());
+				UI.getCurrent().addWindow(vistaJugador);
+			}
+		});
 		listener.bindiarAComboListaGenerarEquiposTentativos(
 				listener.obtenerListaDeMetodosDePonderacion(),
 				metodoDePonderacion);

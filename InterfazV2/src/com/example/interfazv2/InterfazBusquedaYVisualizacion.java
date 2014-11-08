@@ -10,6 +10,7 @@ import Logica.Jugador;
 
 import com.vaadin.data.Container.Filter;
 import com.vaadin.data.Container.Filterable;
+import com.vaadin.data.Item;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.BeanItem;
@@ -354,6 +355,33 @@ public class InterfazBusquedaYVisualizacion extends
 			
 			}
 		});;
+		
+		 jugadores.setCellStyleGenerator(new Table.CellStyleGenerator() {
+		      public String getStyle(Object itemId, Object propertyId) {
+		        if (propertyId == null) {
+		          // Styling for row
+		          Item item = jugadores.getItem(itemId);
+		          Integer handicap = (Integer) item.getItemProperty("nivelDeJuego").getValue();
+		          if (handicap>=8) {
+		            return "highlight-green";
+		          } 
+		            else {
+		          // styling for column propertyId
+		          return null;
+		        }
+		      }
+				return null;
+
+			
+		    }
+
+			@Override
+			public String getStyle(Table source, Object itemId,
+					Object propertyId) {
+				// TODO Auto-generated method stub
+				return null;
+			}});
+		
 		
 		jugadores.setSortEnabled(true);
 		vistaJugador.center();
