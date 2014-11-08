@@ -13,6 +13,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickListener;
+import com.vaadin.ui.DateField;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -36,12 +37,13 @@ public class InterfazDarmeDeAlta extends VerticalLayout implements View, Interfa
 		final TextField nombre = new TextField("Nombre");
 		final TextField apellido = new TextField("Apellido");		
 		final TextField campoEdad = new TextField("Edad");
+		final DateField campoFecha = new DateField ("Fecha De Nacimiento");
 		Button confirmar = new Button("Confirmar",this)	;
 		final com.vaadin.data.util.ObjectProperty<Integer> edad = new com.vaadin.data.util.ObjectProperty<Integer>(0, Integer.class);
 		final com.vaadin.data.util.ObjectProperty<Integer> DNI = new com.vaadin.data.util.ObjectProperty<Integer>(0, Integer.class);
 		campoEdad.setPropertyDataSource(edad);
 		campoDNI.setPropertyDataSource(DNI);
-		layout.addComponents(campoDNI,nombre,apellido,campoEdad,confirmar);
+		layout.addComponents(campoDNI,nombre,apellido,campoEdad,campoFecha,confirmar);
 		
 		
 		confirmar.addClickListener(new ClickListener() {
@@ -52,7 +54,7 @@ public class InterfazDarmeDeAlta extends VerticalLayout implements View, Interfa
 	            try {
 					listener.darDeAltaJugador(event.getButton()
 					                     .getCaption(),DNI.getValue(),
-					                     nombre.getValue(),apellido.getValue(),edad.getValue());
+					                     nombre.getValue(),apellido.getValue(),edad.getValue(),campoFecha.getValue());
 					
 					
 				} catch (SQLException e) {

@@ -74,11 +74,11 @@ public class InterfazPresenter implements InterfazVistas.ViewListener {
 	}
 
 	public void darDeAltaJugador(String operacion, Integer DNI, String nombre,
-			String Apellido, int edad) throws SQLException {
+			String Apellido, int edad, Date fechaNacimiento) throws SQLException {
 		// TODO Auto-generated method stub
 		// if(operacion == "Confirmar"){
 		jugador = new Jugador();
-		jugador.darDeAltaJugador(jugador, DNI, nombre, Apellido, edad);
+		jugador.darDeAltaJugador(jugador, DNI, nombre, Apellido, edad, fechaNacimiento);
 		this.setJugador(jugador);
 		this.admin.getListaDeJugadores().add(jugador);
 		// }

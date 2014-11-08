@@ -219,7 +219,7 @@ public class Administrador implements Serializable {
 				
 				try {
 					bdJugador.getConnection();
-					bdJugador.crearJugador(jugador.getDNI(), jugador.getNombre(), jugador.getApellido(), jugador.getEdad());
+					bdJugador.crearJugador(jugador.getDNI(), jugador.getNombre(), jugador.getApellido(), jugador.getEdad(), jugador.getFechaNacimiento());
 					//bd.insertarRechazado(jugadorPropuesto.DNI,jugadorProponedor.DNI,motivo,fecha,fechaPartido,nombrePartido,lugarPartido);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block

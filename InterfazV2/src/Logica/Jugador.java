@@ -375,17 +375,18 @@ public class Jugador extends ObservableJugadores implements Serializable {
 	}
 
 	public void darDeAltaJugador(Jugador jugador, Integer DNI, String nombre,
-			String Apellido, int edad) {
+			String Apellido, int edad, Date fechaNacimiento) {
 		jugador.setDNI(DNI);
 		jugador.setApellido(Apellido);
 		jugador.setEdad(edad);
 		jugador.setNombre(nombre);
+		jugador.setFechaNacimiento(fechaNacimiento);
 
 		// Inserto a la base de datos
 		try {
 			BDJugador bd = new BDJugador();
 			bd.getConnection();
-			bd.crearJugador(DNI, nombre, Apellido, edad);
+			bd.crearJugador(DNI, nombre, Apellido, edad, fechaNacimiento);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

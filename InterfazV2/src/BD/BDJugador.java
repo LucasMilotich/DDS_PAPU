@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.vaadin.ui.Notification;
@@ -26,10 +27,15 @@ public class BDJugador extends BDConnection
 		 
 	 }*/
 	
-	public void crearJugador(Integer DNI, String nombre, String apellido, int edad){
+	public void crearJugador(Integer DNI, String nombre, String apellido, int edad, Date fechaNacimiento){
 		Statement stmt1 = null;
 		Statement stmt = null;
 		ResultSet rs = null;
+		
+		int dia = fechaNacimiento.getDate();
+		int mes = fechaNacimiento.getMonth() + 1;
+		int anio = fechaNacimiento.getYear() + 1900;
+		
 		String query1 = "SELECT COUNT(*) AS count FROM JUGADORES WHERE DNI = "+ DNI;
 		try{
 			stmt1 = this.conn.createStatement();
@@ -38,8 +44,15 @@ public class BDJugador extends BDConnection
 			if(rs.getInt("count") != 0){
 				Notification.show("Un jugador con el mismo DNI ya existe en la Base de Datos",Type.ERROR_MESSAGE);
 			}else{
-				String query = "insert into JUGADORES (DNI,NOMBRE,APELLIDO,EDAD)  VALUES ('" 
-						+ DNI + "','"+ nombre +"','"+ apellido   + "','" + edad + "')" ;
+				String query = "insert into JUGADORES (DNI,NOMBRE,APELLIDO,EDAD,FECHANACIMIENTO)  VALUES ('" 
+						+ DNI + "','"+ nombre +"','"+ apellido   + "','" + edad + "', "
+				+ "to_date('"
+				+ dia
+				+ "/"
+				+ mes
+				+ "/"
+				+ anio
+				+ "','dd/mm/yyyy'))" ;
 			    try {
 				   // stmt = this.conn.createStatement();
 				    rs = stmt1.executeQuery(query);
