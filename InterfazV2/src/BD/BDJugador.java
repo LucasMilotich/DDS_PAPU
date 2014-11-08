@@ -116,7 +116,9 @@ public class BDJugador extends BDConnection
 		    	jugador.setListaDeInscripciones(this.obtenerInscriciones(jugador));
 		    	jugador.setAmigos(this.obtenerListaAmigos(jugador));
 		    	jugador.setPenalizaciones(this.obtenerPenalizaciones(jugador));
-		    	
+		    	jugador.setPromedioUltimoPartido(rs.getDouble("PROMEDIOULTIMOPARTIDO"));
+		    	jugador.setTuvoInfracciones(rs.getString("TUVOINFRACCIONES"));
+		    	jugador.setFechaNacimiento(rs.getDate("FECHANACIMIENTO"));
 		    }
 	    System.out.println(rs);
      
@@ -166,6 +168,9 @@ public class BDJugador extends BDConnection
 		    	jugador.setApellido(rs.getString("APELLIDO"));
 		    	jugador.setNombre(rs.getString("NOMBRE"));
 		    	jugador.setNivelDeJuego(rs.getInt("NIVELDEJUEGO"));
+		    	jugador.setPromedioUltimoPartido(rs.getDouble("PROMEDIOULTIMOPARTIDO"));
+		    	jugador.setTuvoInfracciones(rs.getString("TUVOINFRACCIONES"));
+		    	jugador.setFechaNacimiento(rs.getDate("FECHANACIMIENTO"));
 		    	jugadores.add(jugador);
 		    
 		    }

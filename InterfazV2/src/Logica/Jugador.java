@@ -48,10 +48,43 @@ public class Jugador extends ObservableJugadores implements Serializable {
 
 	Jugador reemplazo;
 
+
+	String tuvoInfracciones = "NO";
+	double promedioUltimoPartido = 0;
+	Date fechaNacimiento;
+	
 	List<Inscripcion> listaDeInscripciones = new ArrayList<Inscripcion>();
 
 	List<Amigo> amigos = new ArrayList<Amigo>();
 	List<Penalizacion> penalizaciones = new ArrayList<Penalizacion>();
+	
+	public String getTuvoInfracciones() {
+		return tuvoInfracciones;
+	}
+
+	public void setTuvoInfracciones(String tuvoInfracciones) {
+		this.tuvoInfracciones = tuvoInfracciones;
+	}
+
+	public double getPromedioUltimoPartido() {
+		return promedioUltimoPartido;
+	}
+
+	public void setPromedioUltimoPartido(double promedioUltimoPartido) {
+		this.promedioUltimoPartido = promedioUltimoPartido;
+	}
+
+	public Date getFechaNacimiento() {
+		return fechaNacimiento;
+	}
+
+	public void setFechaNacimiento(Date fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+
+	public void setNivelDeJuego(Integer nivelDeJuego) {
+		this.nivelDeJuego = nivelDeJuego;
+	}
 
 	public List<Penalizacion> getPenalizaciones() {
 		return penalizaciones;
