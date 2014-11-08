@@ -11,18 +11,16 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-@Entity
-@Table(name="INSCRIPCION_CONDICIONAL")
+
 public class InscripcionCondicional extends Inscripcion implements Serializable{
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	
 	int id;
-	@OneToOne
-	@JoinColumn(name="INSCRIPCIONES", referencedColumnName="id")
+
 	Inscripcion codigo_inscripcion;
 	public InscripcionCondicional() {
 		//super(partido, jugador, inscripto);
 		// TODO Auto-generated constructor stub
+		this.tipoInscripcion="Inscripción condicional";
 	}
 
 }

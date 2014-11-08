@@ -22,6 +22,7 @@ public class InscripcionEstandar extends Inscripcion implements Serializable {
 	public InscripcionEstandar() {
 		//super(partido, jugador, inscripto);
 		// TODO Auto-generated constructor stub
+		this.tipoInscripcion="Inscripción estandar";
 	}
 	
 }

@@ -29,6 +29,16 @@ public class Inscripcion implements Serializable {
 	boolean inscripto = false;
 	boolean confirmado = false;
 	
+	String tipoInscripcion;
+	
+	public String getTipoInscripcion() {
+		return tipoInscripcion;
+	}
+
+	public void setTipoInscripcion(String tipoInscripcion) {
+		this.tipoInscripcion = tipoInscripcion;
+	}
+
 	public boolean isConfirmado() {
 		return confirmado;
 	}

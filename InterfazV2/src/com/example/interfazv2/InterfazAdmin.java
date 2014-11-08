@@ -37,6 +37,7 @@ public class InterfazAdmin extends VerticalLayout implements View,InterfazVistas
 		MenuItem verPenalizaciones = adminMenu.addItem("Penalizar",null,null);
 		MenuItem terminarPartido = partidoMenu.addItem("Terminar partido", null, null);
 		MenuItem buscarJugadores = jugadorMenu.addItem("Buscar jugadores", null,null);
+		MenuItem verPartidos = partidoMenu.addItem("Ver todos los partidos",null,null);
 		final Panel panel = new Panel();
 	//	final InterfazCrearPartido creadorPartido = new InterfazCrearPartido();
 		com.vaadin.ui.Button atras = new com.vaadin.ui.Button("Atras");
@@ -75,6 +76,7 @@ public class InterfazAdmin extends VerticalLayout implements View,InterfazVistas
 		final InterfazPenalizaciones InterfazPenalizaciones = new InterfazPenalizaciones();
 		final InterfazBusquedaYVisualizacion InterfazBusquedaYVisualizacion = new InterfazBusquedaYVisualizacion();
 		final InterfazRechazados InterfazRechazados = new InterfazRechazados();
+		final InterfazVerPartidos InterfazVerPartidos = new InterfazVerPartidos();
 		crearPartido.setCommand(new MenuBar.Command() {
 			
 			@Override
@@ -186,6 +188,18 @@ public class InterfazAdmin extends VerticalLayout implements View,InterfazVistas
 				InterfazRechazados.addListener(interfazPresenter);
 				
 				panel.setContent(InterfazRechazados.InterfazRechazados());
+			
+			}
+		});
+		
+		verPartidos.setCommand(new MenuBar.Command() {
+			
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				interfazPresenter.vista=InterfazVerPartidos;
+				InterfazVerPartidos.addListener(interfazPresenter);
+				
+				panel.setContent(InterfazVerPartidos.InterfazVerPartidos());
 			
 			}
 		});

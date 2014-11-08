@@ -829,4 +829,18 @@ if(amigoDni != jugadorDNI){
 
 			});
 		}
+		
+		public void bindiarListaInscripcionesATabla(List<Inscripcion> lista, Table tabla){
+			final BeanItemContainer<Inscripcion> container = new BeanItemContainer<Inscripcion>(
+					Inscripcion.class);
+			Iterator<Inscripcion> iterator = lista.iterator();
+			while (iterator.hasNext()) {
+				container.addItem(iterator.next());
+			}
+			container.addNestedContainerProperty("jugador.nombre");
+			container.addNestedContainerProperty("jugador.apellido");
+			tabla.setContainerDataSource(container);
+
+			
+		}
 }

@@ -22,6 +22,7 @@ public class InscripcionSolidaria extends Inscripcion implements Serializable{
 	public InscripcionSolidaria() {
 	//	super(partido, jugador, inscripto);
 		// TODO Auto-generated constructor stub
+		this.tipoInscripcion="Inscripción solidaria";
 	}
 
 }

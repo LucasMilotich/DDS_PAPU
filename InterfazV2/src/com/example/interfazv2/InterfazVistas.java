@@ -88,6 +88,7 @@ public interface InterfazVistas {
 		public View getVista();
 		public void setVista(View vista);
 		public void agregarEfectosColores(final Table tabla);
+		public void bindiarListaInscripcionesATabla(List<Inscripcion> lista, Table tabla);
 		
 	}
 	public void addListener(ViewListener listener);

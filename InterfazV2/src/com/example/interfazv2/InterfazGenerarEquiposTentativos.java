@@ -16,9 +16,12 @@ import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.data.Validator;
+import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.converter.StringToIntegerConverter;
 import com.vaadin.data.validator.IntegerValidator;
+import com.vaadin.event.ItemClickEvent;
+import com.vaadin.event.ItemClickEvent.ItemClickListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Alignment;
@@ -131,20 +134,33 @@ public class InterfazGenerarEquiposTentativos extends VerticalLayout implements
 						" Nombre", "Apellido", "Edad", "Nivel de juego" });
 			}
 		});
-		
-		listaDeJugadoresPorPartido.addValueChangeListener(new ValueChangeListener() {
-			
-			@Override
-			public void valueChange(ValueChangeEvent event) {
-				// TODO Auto-generated method stub
-				listener.setJugador((Jugador) listaDeJugadoresPorPartido.getValue());
-				final InterfazDatosJugador InterfazDatosJugador = new InterfazDatosJugador();
-				InterfazDatosJugador.addListener(listener);
-				listener.setVista(InterfazDatosJugador);
-				vistaJugador.setContent(InterfazDatosJugador.InterfazDatosJugador());
-				UI.getCurrent().addWindow(vistaJugador);
-			}
-		});
+		listaDeJugadoresPorPartido
+				.addItemClickListener(new ItemClickListener() {
+
+					@Override
+					public void itemClick(ItemClickEvent event) {
+						// TODO Auto-generated method stub
+						listener.setJugador(((BeanItem<Jugador>) event
+								.getItem()).getBean());
+						// listener.setJugador((Jugador)
+						// listaDeJugadoresPorPartido.getValue());
+						final InterfazDatosJugador InterfazDatosJugador = new InterfazDatosJugador();
+						InterfazDatosJugador.addListener(listener);
+						listener.setVista(InterfazDatosJugador);
+						vistaJugador.setContent(InterfazDatosJugador
+								.InterfazDatosJugador());
+						UI.getCurrent().addWindow(vistaJugador);
+					}
+				});
+		/*
+		 * listaDeJugadoresPorPartido.addValueChangeListener(new
+		 * ValueChangeListener() {
+		 * 
+		 * @Override public void valueChange(ValueChangeEvent event) { // TODO
+		 * Auto-generated method stub
+		 * 
+		 * } });
+		 */
 		listener.bindiarAComboListaGenerarEquiposTentativos(
 				listener.obtenerListaDeMetodosDePonderacion(),
 				metodoDePonderacion);
@@ -179,7 +195,7 @@ public class InterfazGenerarEquiposTentativos extends VerticalLayout implements
 			}
 		});
 		nivelesDeJuego.setValidationVisible(true);
-		
+
 		metodoDePonderacion.addValueChangeListener(new ValueChangeListener() {
 
 			@Override
@@ -187,23 +203,27 @@ public class InterfazGenerarEquiposTentativos extends VerticalLayout implements
 				// TODO Auto-generated method stub
 
 				numeroDePartidos.setConverter(new StringToIntegerConverter());
-				if(numeroDePartidos.getValue().toString() != null){
-				listener.llamarMetodoPonderamiento(
-						(GeneradorEquiposTentativos) metodoDePonderacion
-								.getValue(), (Partido) partidos.getValue(),
-						(Integer) numeroDePartidos.getConvertedValue());
-				listener.bindiarTablaConJugadoresEnLista(
-						listaDeJugadoresPorPartido,
-						listener.obtenerJugadoresSeleccionadosDeUnPartido((Partido) partidos
-								.getValue()));
-				listaDeJugadoresPorPartido.setVisibleColumns(new String[] {
-						"nombre", "apellido", "edad", "nivelDeJuego" });
+				if (numeroDePartidos.getValue().toString() != null
+						&& (GeneradorEquiposTentativos) metodoDePonderacion
+								.getValue() != null) {
+					listener.llamarMetodoPonderamiento(
+							(GeneradorEquiposTentativos) metodoDePonderacion
+									.getValue(), (Partido) partidos.getValue(),
+							(Integer) numeroDePartidos.getConvertedValue());
+					listener.bindiarTablaConJugadoresEnLista(
+							listaDeJugadoresPorPartido,
+							listener.obtenerJugadoresSeleccionadosDeUnPartido((Partido) partidos
+									.getValue()));
+					listaDeJugadoresPorPartido.setVisibleColumns(new String[] {
+							"nombre", "apellido", "edad", "nivelDeJuego" });
 
-				listaDeJugadoresPorPartido.setColumnHeaders(new String[] {
-						" Nombre", "Apellido", "Edad", "Nivel de juego" });
-			}
-				else Notification.show("Por favor complete la cantidad de partidos a evaluar. Si el método es handicap, ingrese 0",Type.ERROR_MESSAGE);
-				
+					listaDeJugadoresPorPartido.setColumnHeaders(new String[] {
+							" Nombre", "Apellido", "Edad", "Nivel de juego" });
+				} else
+					Notification
+							.show("Por favor complete la cantidad de partidos a evaluar. Si el método es handicap, ingrese 0",
+									Type.ERROR_MESSAGE);
+
 			}
 		});
 		metodoDeOrdenamiento.addContainerProperty("nombre", String.class, null);
@@ -219,25 +239,29 @@ public class InterfazGenerarEquiposTentativos extends VerticalLayout implements
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				// TODO Auto-generated method stub
-				if(nombreA.getValue().toString() != null && nombreB.getValue().toString()!= null){
-				if (metodoDeOrdenamiento.getValue() == "División par-impar")
-					listener.bindiarEquiposATabla(
-							listener.getAdmin().dividirEquiposParImpar(
-									(Partido) partidos.getValue(),
-									nombreA.getValue(), nombreB.getValue()),
-							equipoA, equipoB);
-				if (metodoDeOrdenamiento.getValue() == "División por posición")
-					listener.bindiarEquiposATabla(
-							listener.getAdmin().dividirEquiposSegundoCriterio(
-									(Partido) partidos.getValue(),
-									nombreA.getValue(), nombreB.getValue()),
-							equipoA, equipoB);
-				equipoA.setVisibleColumns(new String[] { "nombre", "apellido",
-						"edad", "nivelDeJuego" });
-				equipoB.setVisibleColumns(new String[] { "nombre", "apellido",
-						"edad", "nivelDeJuego" });
-			}
-				else Notification.show("Ingrese los nombres de los equipos", Type.ERROR_MESSAGE);
+				if (nombreA.getValue().toString() != null
+						&& nombreB.getValue().toString() != null) {
+					if (metodoDeOrdenamiento.getValue() == "División par-impar")
+						listener.bindiarEquiposATabla(
+								listener.getAdmin().dividirEquiposParImpar(
+										(Partido) partidos.getValue(),
+										nombreA.getValue(), nombreB.getValue()),
+								equipoA, equipoB);
+					if (metodoDeOrdenamiento.getValue() == "División por posición")
+						listener.bindiarEquiposATabla(
+								listener.getAdmin()
+										.dividirEquiposSegundoCriterio(
+												(Partido) partidos.getValue(),
+												nombreA.getValue(),
+												nombreB.getValue()), equipoA,
+								equipoB);
+					equipoA.setVisibleColumns(new String[] { "nombre",
+							"apellido", "edad", "nivelDeJuego" });
+					equipoB.setVisibleColumns(new String[] { "nombre",
+							"apellido", "edad", "nivelDeJuego" });
+				} else
+					Notification.show("Ingrese los nombres de los equipos",
+							Type.ERROR_MESSAGE);
 			}
 		});
 		listener.agregarEfectosColores(listaDeJugadoresPorPartido);
