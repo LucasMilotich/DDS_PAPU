@@ -44,7 +44,7 @@ public class BDJugador extends BDConnection
 			if(rs.getInt("count") != 0){
 				Notification.show("Un jugador con el mismo DNI ya existe en la Base de Datos",Type.ERROR_MESSAGE);
 			}else{
-				String query = "insert into JUGADORES (DNI,NOMBRE,APELLIDO,EDAD,FECHANACIMIENTO)  VALUES ('" 
+				String query = "insert into JUGADORES (DNI,NOMBRE,APELLIDO,EDAD,FECHANACIMIENTO,TUVOINFRACCIONES)  VALUES ('" 
 						+ DNI + "','"+ nombre +"','"+ apellido   + "','" + edad + "', "
 				+ "to_date('"
 				+ dia
@@ -52,7 +52,7 @@ public class BDJugador extends BDConnection
 				+ mes
 				+ "/"
 				+ anio
-				+ "','dd/mm/yyyy'))" ;
+				+ "','dd/mm/yyyy'), '" + "NO" + "')" ;
 			    try {
 				   // stmt = this.conn.createStatement();
 				    rs = stmt1.executeQuery(query);
@@ -614,6 +614,27 @@ public class BDJugador extends BDConnection
 	    ResultSet rs = stmt.executeQuery(query);
 	    System.out.println(rs);
 	    
+	    }
+	    catch(SQLException e){
+	    	 System.out.println(e);
+	    } finally {
+	        if (stmt != null) { try {
+				stmt.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} }
+	    }
+	}
+	
+	public void actualizarTuvoInfracciones(Integer dni){
+	 	Statement stmt = null;
+		String query = "update JUGADORES set TUVOINFRACCIONES = '"+ "SI" + "' where DNI=" + dni;
+	    try {
+	    stmt = this.conn.createStatement();
+	    ResultSet rs = stmt.executeQuery(query);
+	    System.out.println(rs);
+     
 	    }
 	    catch(SQLException e){
 	    	 System.out.println(e);

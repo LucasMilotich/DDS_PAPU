@@ -225,12 +225,15 @@ public class InterfazPresenter implements InterfazVistas.ViewListener {
 					.setMotivo("Penalizado por baja sin proponer reemplazo");
 			penalizacion.setJugador(jugador);
 			penalizacion.setPartido(partido);
-			jugador.getPenalizaciones().add(penalizacion);
-			
 			BDPenalizaciones bd = new BDPenalizaciones();
+			BDJugador bdJugador = new BDJugador();
 			try {
 				bd.getConnection();
 				bd.agregarPenalizacion(penalizacion.getMotivo(), jugador, partido);
+				bdJugador.getConnection();
+				bdJugador.actualizarTuvoInfracciones(jugador.getDNI());
+				jugador.getPenalizaciones().add(penalizacion);
+				jugador.setTuvoInfracciones("SI");
 				Notification.show("La penalización ha sido creada");
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -625,9 +628,13 @@ if(amigoDni != jugadorDNI){
 			Partido partido) {
 
 		BDPenalizaciones bd = new BDPenalizaciones();
+		BDJugador bdJugador = new BDJugador();
 		try {
 			bd.getConnection();
 			bd.agregarPenalizacion(motivo, jugador, partido);
+			bdJugador.getConnection();
+			bdJugador.actualizarTuvoInfracciones(jugador.getDNI());
+			jugador.setTuvoInfracciones("SI");
 			Notification.show("La penalización ha sido creada");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
