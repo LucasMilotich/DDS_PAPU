@@ -246,11 +246,11 @@ public class InterfazPresenter implements InterfazVistas.ViewListener {
 
 	@Override
 	public void proponerNuevoJugador(String nombre, String apellido, int dni,
-			int edad, Partido partido, Administrador admin,Jugador jugador) {
+			int edad, Date fechaNacimiento, Partido partido, Administrador admin,Jugador jugador) {
 		// // TODO Auto-generated method stub
 		// this.jugador.proponerAmigo((Amigo)jugadorPropuesto, null, null);
 
-		this.jugador.proponerJugador(nombre, apellido, dni, edad, partido,
+		this.jugador.proponerJugador(nombre, apellido, dni, edad, fechaNacimiento, partido,
 				admin);
 	}
 

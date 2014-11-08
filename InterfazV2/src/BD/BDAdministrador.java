@@ -246,7 +246,7 @@ public class BDAdministrador extends BDConnection {
 				e1.printStackTrace();
 			}
 			
-		    String query = "select * from jugadoresparaparobar jp,jugadores j where j.dni = jp.jugadores and jp.APROBADO != 1";
+		    String query = "select * from jugadoresparaparobar jp where jp.APROBADO != 1";
 		    try {
 		    stmt = this.conn.createStatement();
 		    rs = stmt.executeQuery(query);
@@ -254,10 +254,13 @@ public class BDAdministrador extends BDConnection {
 			    for (int i=1; rs.next(); i++)
 			    {	
 			    	jugador = new Jugador();
-			    	jugador.setDNI(rs.getInt("DNI"));
+			    	jugador.setDNI(rs.getInt("JUGADORES"));
 			    	jugador.setEdad(rs.getInt("EDAD"));
 			    	jugador.setApellido(rs.getString("APELLIDO"));
 			    	jugador.setNombre(rs.getString("NOMBRE"));
+			    	jugador.setFechaNacimiento(rs.getDate("FECHANACIMIENTO"));
+			    	jugador.setPromedioUltimoPartido(0);
+					jugador.setTuvoInfracciones("NO");
 			    	//jugador.setNivelDeJuego(rs.getInt("NIVELDEJUEGO"));
 			    	//jugador.setListaDeInscripciones(this.obtenerInscriciones(jugador));
 			    	//jugador.setAmigos(this.obtenerListaAmigos(jugador));

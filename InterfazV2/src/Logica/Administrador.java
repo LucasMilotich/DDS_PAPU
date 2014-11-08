@@ -214,7 +214,19 @@ public class Administrador implements Serializable {
 		if (aprobado == true) {
 			
 			BDAdministrador bdAdministrador;
+			BDJugador bdJugador = new BDJugador();
 			try {
+				
+				try {
+					bdJugador.getConnection();
+					bdJugador.crearJugador(jugador.getDNI(), jugador.getNombre(), jugador.getApellido(), jugador.getEdad());
+					//bd.insertarRechazado(jugadorPropuesto.DNI,jugadorProponedor.DNI,motivo,fecha,fechaPartido,nombrePartido,lugarPartido);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				
 				Partido partido = null;
 				Integer DniProponedor = null;
 				Integer IdInscripcion = null;

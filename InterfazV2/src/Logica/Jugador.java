@@ -291,14 +291,16 @@ public class Jugador extends ObservableJugadores implements Serializable {
 	}
 
 	public void proponerJugador(String nombre, String apellido, int dni,
-			int edad, Partido partido, Administrador admin) {
+			int edad, Date fechaNacimiento, Partido partido, Administrador admin) {
 		Jugador jugador = null;
 		jugador = new Jugador();
 		jugador.setEdad(edad);
 		jugador.setNombre(nombre);
 		jugador.setApellido(apellido);
 		jugador.setDNI(dni);
-
+		jugador.setFechaNacimiento(fechaNacimiento);
+		jugador.setPromedioUltimoPartido(0);
+		jugador.setTuvoInfracciones("NO");
 		admin.listaDeJugadoresParaAprobar.add(jugador);
 		admin.listaDeJugadores.add(jugador);
 		BDJugador bd;
@@ -306,7 +308,7 @@ public class Jugador extends ObservableJugadores implements Serializable {
 			bd = new BDJugador();
 			bd.getConnection();
 			//bd.crearJugador(dni, nombre, apellido, edad);
-			bd.crearJugadorParaAprobar(dni, partido,this.getDNI());
+			bd.crearJugadorParaAprobar(jugador, partido,this.getDNI());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

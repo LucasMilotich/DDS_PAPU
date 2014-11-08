@@ -567,9 +567,13 @@ public class BDJugador extends BDConnection
 		
 	}
 
-	public void crearJugadorParaAprobar(Integer DNI, Partido partido, Integer DNIProponedor){
+	public void crearJugadorParaAprobar(Jugador jugador, Partido partido, Integer DNIProponedor){
 		BDPartido bdpartido;
 		Integer idPartido = null;
+		
+		int dia = jugador.getFechaNacimiento().getDate();
+		int mes = jugador.getFechaNacimiento().getMonth() + 1;
+		int anio = jugador.getFechaNacimiento().getYear() + 1900;
 		
 		try {
 			
@@ -582,8 +586,15 @@ public class BDJugador extends BDConnection
 		}
 		
 		Statement stmt = null;
-	    String query = "insert into JUGADORESPARAPAROBAR (JUGADORES, APROBADO, PARTIDO, JUGADOR_PROPONEDOR)  VALUES (" 
-		+ DNI + ",'"+ 0 + "',"+ idPartido +","+ DNIProponedor +")";
+	    String query = "insert into JUGADORESPARAPAROBAR (JUGADORES, APROBADO, PARTIDO, JUGADOR_PROPONEDOR, NOMBRE, APELLIDO, EDAD, FECHANACIMIENTO)  VALUES (" 
+		+ jugador.getDNI() + ",'"+ 0 + "',"+ idPartido +","+ DNIProponedor +" ,'"+ jugador.getNombre() + "', '"+ jugador.getApellido() + "', " + jugador.getEdad() + ", "
+				+ "to_date('"
+				+ dia
+				+ "/"
+				+ mes
+				+ "/"
+				+ anio
+				+ "','dd/mm/yyyy'))";
 	    
 	    try {
 	    stmt = this.conn.createStatement();
