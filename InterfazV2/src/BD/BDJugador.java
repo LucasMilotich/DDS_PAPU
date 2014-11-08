@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.vaadin.ui.Notification;
@@ -118,7 +119,7 @@ public class BDJugador extends BDConnection
 		    	jugador.setPenalizaciones(this.obtenerPenalizaciones(jugador));
 		    	jugador.setPromedioUltimoPartido(rs.getDouble("PROMEDIOULTIMOPARTIDO"));
 		    	jugador.setTuvoInfracciones(rs.getString("TUVOINFRACCIONES"));
-		    	jugador.setFechaNacimiento(rs.getDate("FECHANACIMIENTO"));
+		    	jugador.setFechaNacimiento(new java.util.Date(rs.getTimestamp("FECHANACIMIENTO").getTime()));
 		    }
 	    System.out.println(rs);
      
@@ -170,7 +171,7 @@ public class BDJugador extends BDConnection
 		    	jugador.setNivelDeJuego(rs.getInt("NIVELDEJUEGO"));
 		    	jugador.setPromedioUltimoPartido(rs.getDouble("PROMEDIOULTIMOPARTIDO"));
 		    	jugador.setTuvoInfracciones(rs.getString("TUVOINFRACCIONES"));
-		    	jugador.setFechaNacimiento(rs.getDate("FECHANACIMIENTO"));
+		    	jugador.setFechaNacimiento( new java.util.Date(rs.getTimestamp("FECHANACIMIENTO").getTime()));
 		    	jugadores.add(jugador);
 		    
 		    }
@@ -491,6 +492,10 @@ public class BDJugador extends BDConnection
 		    	jugador.setNivelDeJuego(rs.getInt("NIVELDEJUEGO"));
 		    	jugador.setListaDeInscripciones(this.obtenerInscriciones(jugador));
 		    	jugador.setAmigos(this.obtenerListaAmigos(jugador));
+		    	jugador.setPromedioUltimoPartido(rs.getDouble("PROMEDIOULTIMOPARTIDO"));
+		    	jugador.setTuvoInfracciones(rs.getString("TUVOINFRACCIONES"));
+		    	jugador.setFechaNacimiento( new java.util.Date(rs.getTimestamp("FECHANACIMIENTO").getTime()));
+		    
 		    	jugadores.add(jugador);
 		    }
 	    System.out.println(rs);

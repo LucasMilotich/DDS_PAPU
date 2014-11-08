@@ -61,6 +61,14 @@ public class InterfazPresenter implements InterfazVistas.ViewListener {
 	InterfazDarmeDeAlta vistaDarmeDeAlta;
 	InterfazInscribirmePartido vistaInscribirmePartido;
 	View vista;
+	public View getVista() {
+		return vista;
+	}
+
+	public void setVista(View vista) {
+		this.vista = vista;
+	}
+
 	Jugador jugador;
 	Inscripcion inscripcion;
 	SingletonJugadoresParaAprobar singleton;

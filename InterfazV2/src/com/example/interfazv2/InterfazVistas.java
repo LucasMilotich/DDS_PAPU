@@ -8,6 +8,7 @@ import org.tepi.filtertable.FilterTable;
 
 import com.vaadin.data.Container;
 import com.vaadin.data.Item;
+import com.vaadin.navigator.View;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.VerticalLayout;
@@ -84,6 +85,8 @@ public interface InterfazVistas {
 		public void bindiarEquiposATabla(List<Equipo> equipos,Table tablaA,Table tableB);
 		public FilterTable bindiarFilterTablaConJugadoresEnLista(FilterTable tabla,
 				List<Jugador> jugadores);
+		public View getVista();
+		public void setVista(View vista);
 		
 	}
 	public void addListener(ViewListener listener);
