@@ -61,6 +61,14 @@ public class InterfazPresenter implements InterfazVistas.ViewListener {
 	InterfazDarmeDeAlta vistaDarmeDeAlta;
 	InterfazInscribirmePartido vistaInscribirmePartido;
 	View vista;
+	public View getVista() {
+		return vista;
+	}
+
+	public void setVista(View vista) {
+		this.vista = vista;
+	}
+
 	Jugador jugador;
 	Inscripcion inscripcion;
 	SingletonJugadoresParaAprobar singleton;
@@ -74,11 +82,11 @@ public class InterfazPresenter implements InterfazVistas.ViewListener {
 	}
 
 	public void darDeAltaJugador(String operacion, Integer DNI, String nombre,
-			String Apellido, int edad) throws SQLException {
+			String Apellido, int edad, Date fechaNacimiento) throws SQLException {
 		// TODO Auto-generated method stub
 		// if(operacion == "Confirmar"){
 		jugador = new Jugador();
-		jugador.darDeAltaJugador(jugador, DNI, nombre, Apellido, edad);
+		jugador.darDeAltaJugador(jugador, DNI, nombre, Apellido, edad, fechaNacimiento);
 		this.setJugador(jugador);
 		this.admin.getListaDeJugadores().add(jugador);
 		// }
@@ -225,12 +233,15 @@ public class InterfazPresenter implements InterfazVistas.ViewListener {
 					.setMotivo("Penalizado por baja sin proponer reemplazo");
 			penalizacion.setJugador(jugador);
 			penalizacion.setPartido(partido);
-			jugador.getPenalizaciones().add(penalizacion);
-			
 			BDPenalizaciones bd = new BDPenalizaciones();
+			BDJugador bdJugador = new BDJugador();
 			try {
 				bd.getConnection();
 				bd.agregarPenalizacion(penalizacion.getMotivo(), jugador, partido);
+				bdJugador.getConnection();
+				bdJugador.actualizarTuvoInfracciones(jugador.getDNI());
+				jugador.getPenalizaciones().add(penalizacion);
+				jugador.setTuvoInfracciones("SI");
 				Notification.show("La penalización ha sido creada");
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -246,11 +257,11 @@ public class InterfazPresenter implements InterfazVistas.ViewListener {
 
 	@Override
 	public void proponerNuevoJugador(String nombre, String apellido, int dni,
-			int edad, Partido partido, Administrador admin,Jugador jugador) {
+			int edad, Date fechaNacimiento, Partido partido, Administrador admin,Jugador jugador) {
 		// // TODO Auto-generated method stub
 		// this.jugador.proponerAmigo((Amigo)jugadorPropuesto, null, null);
 
-		this.jugador.proponerJugador(nombre, apellido, dni, edad, partido,
+		this.jugador.proponerJugador(nombre, apellido, dni, edad, fechaNacimiento, partido,
 				admin);
 	}
 
@@ -625,9 +636,13 @@ if(amigoDni != jugadorDNI){
 			Partido partido) {
 
 		BDPenalizaciones bd = new BDPenalizaciones();
+		BDJugador bdJugador = new BDJugador();
 		try {
 			bd.getConnection();
 			bd.agregarPenalizacion(motivo, jugador, partido);
+			bdJugador.getConnection();
+			bdJugador.actualizarTuvoInfracciones(jugador.getDNI());
+			jugador.setTuvoInfracciones("SI");
 			Notification.show("La penalización ha sido creada");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

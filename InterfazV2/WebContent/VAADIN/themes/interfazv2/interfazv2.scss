@@ -9,4 +9,8 @@
   @include reindeer;
 
   /* Insert your theme rules here */
+  .v-table-row.v-table-row-highlight-green,
+.v-table-row-odd.v-table-row-highlight-green {
+  background-color: #00ff00;
+}
 }
