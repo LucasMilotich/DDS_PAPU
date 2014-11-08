@@ -393,7 +393,6 @@ public class Administrador implements Serializable {
 		}
 	}
 
-	
 	public List<Equipo> dividirEquiposParImpar (Partido partido, String nombreEquipoA, String nombreEquipoB){
 		if (nombreEquipoA!= null && nombreEquipoB!= null && nombreEquipoA!= "" && nombreEquipoB != ""){
 		Equipo equipoPar = new Equipo();
@@ -454,9 +453,10 @@ public class Administrador implements Serializable {
 	}
 	}
 	
+	
 	public List<Equipo> dividirEquiposSegundoCriterio (Partido partido, String nombreEquipoA, String nombreEquipoB){
+		
 		if (nombreEquipoA!= null && nombreEquipoB!= null && nombreEquipoA!= "" && nombreEquipoB != ""){
-			
 		
 		Equipo equipoA = new Equipo();
 		Equipo equipoB = new Equipo();	
@@ -509,12 +509,14 @@ public class Administrador implements Serializable {
 			i++;
 		}
 		return equipos;
-		}else {
-			Notification.show("Ingrese los nombres de los equipos por favor",Type.ERROR_MESSAGE);
-			return null;
-		}
-	}	
-
+	}else {
+		Notification.show("Ingrese los nombres de los equipos por favor",Type.ERROR_MESSAGE);
+		return null;
+	}
+	}
+	
+	
+	
 	public void cambiarDeEstadoUnPartidoAEmpezado(Partido partido){
 		if (this.getListaPartidosConfirmados().remove(partido) && !partido.isEmpezado()){
 			this.getListaPartidosEmpezados().add(partido);
