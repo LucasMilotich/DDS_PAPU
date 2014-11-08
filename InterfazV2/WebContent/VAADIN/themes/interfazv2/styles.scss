@@ -1,0 +1,9 @@
+@import "addons.scss";
+@import "interfazv2.scss";
+
+/* This file prefixes all rules with the theme name to avoid causing conflicts with other themes. */
+/* The actual styles should be defined in interfazv2.scss */
+.interfazv2 {
+  @include addons;
+  @include interfazv2;
+}
