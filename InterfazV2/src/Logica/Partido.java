@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -22,6 +23,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import BD.BDConnection;
+import BD.BDInscripciones;
 import BD.BDPartido;
 
 import com.vaadin.addon.jpacontainer.JPAContainer;
@@ -221,50 +223,132 @@ boolean empezado = false;
 		this.listaJugadoresSeleccionados = jugadoresSeleccionados;
 	}
 
-	public boolean inscribirA(Jugador jugador, Inscripcion inscripcion)
-			throws SQLException {
-
+	int cantJugadores = 0;
+	
+	public boolean inscribirA(Jugador jugador, Inscripcion inscripcion) throws SQLException {
+		
+		BDInscripciones bdInscripciones = new BDInscripciones();
+		cantJugadores = bdInscripciones.obtenerCantInscripciones();
+		
+		BDInscripciones bdInscripciones2 = new BDInscripciones();
+		jugadoresEstandar = bdInscripciones2.obtenerCantEstandar();
+		
+		if (jugadoresEstandar == 10) {
+			//Se cierra el partido (10 jugadores estandar)
+			this.cerrado = true;
+			BDPartido bd = new BDPartido();
+			bd.getConnection();
+			bd.cambiarEstCerrado(this);
+			this.setCerrado(true);
+		}
+		
+		
 		if (this.cerrado == false) {
-			this.getListaDeInscripciones().add(inscripcion);
-			if (jugadoresEstandar < 10) {
-				this.listaDeJugadores.add(jugador);
-				/*
-				 * BDConnection generadorQuery = new BDConnection();
-				 * generadorQuery.getConnection();
-				 * generadorQuery.insertarAJugadoresPartido(jugador, this);
-				 */
-				// Notification.show("Jugador en lista de jugadores para el partido "
-				// + this.getNombre() );
+			
+			if (cantJugadores < 10) {
+				
+				inscripcion.inscripto = true;
+				this.getListaDeInscripciones().add(inscripcion);
+				cantJugadores++;
+
 				if (inscripcion instanceof InscripcionEstandar) {
 					jugadoresEstandar++;
 				}
-				if ((jugadoresEstandar == 10)) {
-					// Se cierra el partido(10 jugadores estandar)
-					this.cerrado = true;
-					BDPartido bd = new BDPartido();
-					bd.getConnection();
-					bd.cambiarEstCerrado(this);
-					this.setCerrado(true);
-					// envioMensaje.enviarMensajeAAdmin();
-				}
-				if (this.getListaDeJugadores().size() >= 10
-						&& this.cerrado == false) {
-					// se le envia mensaje a admin, ya q se llego a los 10
-					// inscriptos, pero no se cerro la inscripcion
-					// envioMensaje.partidoConfirmado(this);
-				}
-				Notification.show("Se ha inscripto al partido el jugador "
-						+ jugador.getNombre());
-
+			
+				return true;
 			}
-			return true;
+			
+			if (cantJugadores == 10 && jugadoresEstandar == 10){
+				//ya hay 10 estandar
+				return false;
+			}
+			
+			if (cantJugadores == 10 && jugadoresEstandar < 10){
+				
+				return entraOSale(jugador, inscripcion);
+				
+			}
+		
+			
 		} else {
-			// informo qe el partido esta cerrado
+		
 			Notification.show("Error, el partido está cerrado", Type.ERROR_MESSAGE);
 			return false;
 		}
-
+		
+		return false;
 	}
+	
+	
+	public boolean entraOSale(Jugador jugador, Inscripcion inscripcion){
+		
+		BDInscripciones bdinscr = new BDInscripciones();
+		try {
+			bdinscr.getConnection();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
+		if (inscripcion instanceof InscripcionEstandar) {
+			
+			Inscripcion inscrip = null;
+			Iterator<Inscripcion> iterator = this.getListaDeInscripciones().iterator();
+			while (iterator.hasNext()){
+				inscrip = iterator.next();
+				
+				if (inscrip.inscripto == true && inscrip instanceof InscripcionCondicional) {
+					inscrip.inscripto = false;
+					
+					bdinscr.actualizarInscripcionNoAceptada(inscrip);
+					inscripcion.setInscripto(true);
+					this.getListaDeInscripciones().add(inscripcion);
+					return true;
+				}
+			}
+			
+			Iterator<Inscripcion> iterator2 = this.getListaDeInscripciones().iterator();
+			while (iterator2.hasNext()){
+				inscrip = iterator2.next();
+				
+				if (inscrip.inscripto == true && inscrip instanceof InscripcionSolidaria) {
+					inscrip.inscripto = false;
+					
+					bdinscr.actualizarInscripcionNoAceptada(inscrip);
+					inscripcion.setInscripto(true);
+					this.getListaDeInscripciones().add(inscripcion);
+					return true;
+				}
+			}
+		}
+		
+		if (inscripcion instanceof InscripcionSolidaria) {
+			
+			Inscripcion inscrip = null;
+			Iterator<Inscripcion> iterator = this.getListaDeInscripciones().iterator();
+			while (iterator.hasNext()){
+				inscrip = iterator.next();
+				
+				if (inscrip.inscripto == true && inscrip instanceof InscripcionCondicional) {
+					inscrip.inscripto = false;
+					
+					bdinscr.actualizarInscripcionNoAceptada(inscrip);
+					inscripcion.setInscripto(true);
+					this.getListaDeInscripciones().add(inscripcion);
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	
+	
+	
+	
+	
 
 	public void darDebajaA(Jugador jugador) {
 		this.getListaDeJugadores().remove(jugador);

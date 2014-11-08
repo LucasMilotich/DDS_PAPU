@@ -232,4 +232,100 @@ public class BDInscripciones extends BDConnection {
 		    } 
 		return idInscripcion;
 	 }
+	 
+	 
+	 public void actualizarInscripcionNoAceptada(Inscripcion inscripcion){
+		 BDPartido bdPartido;
+		 int id = 0;
+		try {
+			bdPartido = new BDPartido();
+			bdPartido.getConnection();
+			  id = bdPartido.obtenerIDPartido(inscripcion.getPartido().getNombre(), inscripcion.getPartido().getLugar(), inscripcion.getPartido().getFecha());
+			 
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		 Statement stmt = null;
+			ResultSet rs;
+		    String query = "UPDATE INSCRIPCIONES SET INSCRIPCIONACEPTADA = 0 WHERE JUGADOR = " + inscripcion.getJugador().getDNI() 
+		    		+ " AND PARTIDO = " + id ;
+		    try {
+		    stmt = this.conn.createStatement();
+		     rs = stmt.executeQuery(query);
+		   
+		    System.out.println(rs);
+	     
+		    }
+		    catch(SQLException e){
+		    	 System.out.println(e);	
+		    } finally {
+		        if (stmt != null) {
+		        try {
+					stmt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} }
+		    }
+	 }
+	 
+	 public Integer obtenerCantInscripciones(){
+
+		 int cantInscrip = 0;
+		 
+				Statement stmt = null;
+				ResultSet rs;
+			    String query = "select COUNT(*) from inscripciones where INSCRIPCIONACEPTADA = 1";
+			    try {
+			    this.getConnection();
+			    stmt = this.conn.createStatement();
+			    rs = stmt.executeQuery(query);
+			    rs.next();
+			    cantInscrip = rs.getInt("COUNT(*)");
+			   
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} finally {
+		        if (stmt != null) { try {
+					stmt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} }
+		    } 
+		return cantInscrip;
+	 }
+	 
+	 public Integer obtenerCantEstandar(){
+
+		 int cantEstandar = 0;
+		 
+				Statement stmt = null;
+				ResultSet rs;
+			    String query = "select COUNT(*) from inscripciones where TIPOINSCRIPCION = 1";
+			    try {
+			    this.getConnection();
+			    stmt = this.conn.createStatement();
+			    rs = stmt.executeQuery(query);
+			    rs.next();
+			    cantEstandar = rs.getInt("COUNT(*)");
+			   
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} finally {
+		        if (stmt != null) { try {
+					stmt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} }
+		    } 
+		return cantEstandar;
+	 }
+	 
+	 
 }
