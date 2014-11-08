@@ -240,7 +240,7 @@ public class InterfazGenerarEquiposTentativos extends VerticalLayout implements
 				else Notification.show("Ingrese los nombres de los equipos", Type.ERROR_MESSAGE);
 			}
 		});
-
+		listener.agregarEfectosColores(listaDeJugadoresPorPartido);
 		return layout;
 	}
 

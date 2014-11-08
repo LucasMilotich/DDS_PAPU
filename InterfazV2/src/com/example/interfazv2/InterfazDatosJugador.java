@@ -19,6 +19,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Button.ClickListener;
 
@@ -44,7 +45,7 @@ public class InterfazDatosJugador extends VerticalLayout implements View,
 		Label promedioPartidosTodos = new Label(
 				"Promedio de los partidos jugados: ");
 		Table penalizaciones = new Table("Penalizaciones");
-
+		
 		final ObjectProperty<Double> promUltPart = new ObjectProperty<Double>(
 				0.0);
 		final ObjectProperty<Double> promTotPart = new ObjectProperty<Double>(
@@ -72,15 +73,7 @@ public class InterfazDatosJugador extends VerticalLayout implements View,
 				.setConverter(new StringToIntegerConverter());
 		promedioPartidosTodos.setPropertyDataSource(promTotPart);
 
-		fechaNacimiento.setConverter(new StringToDateConverter() {
-
-			public DateFormat getFormat(Locale locale) {
-
-				return new SimpleDateFormat("dd-MM-YYYY");
-
-			}
-
-		});
+		
 
 		// Ordenamiento
 		layoutMain.setSizeFull();
@@ -110,8 +103,7 @@ public class InterfazDatosJugador extends VerticalLayout implements View,
 			nivelDeJuego.setValue(listener.getJugador().getNivelDeJuego()
 					.toString());
 		if (listener.getJugador().getFechaNacimiento() != null)
-			fechaNacimiento.setValue(listener.getJugador().getFechaNacimiento()
-					.toString());
+			fechaNacimiento.setValue(new SimpleDateFormat("dd-MM-yyyy").format(listener.getJugador().getFechaNacimiento()));
 		cantPart.setValue(listener.obtenerCantidadDePartidosJugados(listener
 				.getJugador()));
 		promTotPart.setValue(listener
@@ -119,7 +111,17 @@ public class InterfazDatosJugador extends VerticalLayout implements View,
 		listener.bindiarPenalizacionesATabla(
 				listener.obtenerPenalizacionesDeUn(listener.getJugador()),
 				penalizaciones);
+		fechaNacimiento.setConverter(new StringToDateConverter() {
 
+			public DateFormat getFormat(Locale locale) {
+
+				return new SimpleDateFormat("dd-MM-yyyy");
+
+			}
+
+		});
+		
+		
 		return layout;
 
 	}

@@ -788,4 +788,45 @@ if(amigoDni != jugadorDNI){
 		tableB.setContainerDataSource(containerB);
 		}
 	}
+		public void agregarEfectosColores(final Table tabla){
+			tabla.setCellStyleGenerator(new Table.CellStyleGenerator() {
+					public String getStyle(Object itemId, Object propertyId) {
+			        if (propertyId == null) {
+			          // Styling for row
+			          Item item = tabla.getItem(itemId);
+			          Integer handicap = (Integer) item.getItemProperty("nivelDeJuego").getValue();
+			          if (handicap>=8) {
+			            return "highlight-blue";
+			          } 
+			            else {
+			          // styling for column propertyId
+			          return null;
+			        }
+			      }
+					return null;
+
+				
+			    }
+
+					@Override
+					public String getStyle(Table source, Object itemId,
+							Object propertyId) {
+						// TODO Auto-generated method stub
+						 if (propertyId == null) {
+					          // Styling for row
+					          Item item = tabla.getItem(itemId);
+					          Integer handicap = (Integer) item.getItemProperty("nivelDeJuego").getValue();
+					          if (handicap>=8) {
+					            return "highlight-blue";
+					          } 
+					            else {
+					          // styling for column propertyId
+					          return null;
+					        }
+					      }
+							return null;
+					}
+
+			});
+		}
 }

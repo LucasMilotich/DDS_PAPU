@@ -87,6 +87,7 @@ public interface InterfazVistas {
 				List<Jugador> jugadores);
 		public View getVista();
 		public void setVista(View vista);
+		public void agregarEfectosColores(final Table tabla);
 		
 	}
 	public void addListener(ViewListener listener);

@@ -356,14 +356,15 @@ public class InterfazBusquedaYVisualizacion extends
 			}
 		});;
 		
-		 jugadores.setCellStyleGenerator(new Table.CellStyleGenerator() {
-		      public String getStyle(Object itemId, Object propertyId) {
+		listener.agregarEfectosColores(jugadores);
+		/* jugadores.setCellStyleGenerator(new Table.CellStyleGenerator() {
+				public String getStyle(Object itemId, Object propertyId) {
 		        if (propertyId == null) {
 		          // Styling for row
 		          Item item = jugadores.getItem(itemId);
 		          Integer handicap = (Integer) item.getItemProperty("nivelDeJuego").getValue();
 		          if (handicap>=8) {
-		            return "highlight-green";
+		            return "highlight-blue";
 		          } 
 		            else {
 		          // styling for column propertyId
@@ -375,12 +376,26 @@ public class InterfazBusquedaYVisualizacion extends
 			
 		    }
 
-			@Override
-			public String getStyle(Table source, Object itemId,
-					Object propertyId) {
-				// TODO Auto-generated method stub
-				return null;
-			}});
+				@Override
+				public String getStyle(Table source, Object itemId,
+						Object propertyId) {
+					// TODO Auto-generated method stub
+					 if (propertyId == null) {
+				          // Styling for row
+				          Item item = jugadores.getItem(itemId);
+				          Integer handicap = (Integer) item.getItemProperty("nivelDeJuego").getValue();
+				          if (handicap>=8) {
+				            return "highlight-blue";
+				          } 
+				            else {
+				          // styling for column propertyId
+				          return null;
+				        }
+				      }
+						return null;
+				}
+
+		});*/
 		
 		
 		jugadores.setSortEnabled(true);
