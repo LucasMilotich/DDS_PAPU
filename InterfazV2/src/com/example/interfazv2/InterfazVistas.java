@@ -27,7 +27,7 @@ public interface InterfazVistas {
 	public void setTextFieldString(String value);
 	interface ViewListener {
 		public void setJugador(Jugador jugador);
-        void darDeAltaJugador(String operacion,Integer DNI,String apellido ,String nombre, int edad) throws SQLException;
+        void darDeAltaJugador(String operacion,Integer DNI,String apellido ,String nombre, int edad, Date fechaNacimiento) throws SQLException;
         List<Partido> buscarPartidos();
         void inscribirAPartido(Partido partido, Inscripcion inscripcion) throws SQLException;
         void generarInscripcionEstandar(Jugador jugador, Partido partido) throws SQLException;
@@ -41,7 +41,7 @@ public interface InterfazVistas {
         void crearPartido(Date datoFecha,String datoHora,String datoNombre,String datoLugar);
         List<Partido> obtenerPartidosInscriptos();
         void darDeBaja(Partido partido, Jugador reeemplazo) throws SQLException;
-        void proponerNuevoJugador(String nombre, String apellido,int dni, int edad, Partido partido, Administrador admin,Jugador jugador);
+        void proponerNuevoJugador(String nombre, String apellido,int dni, int edad, Date fechaNacimiento, Partido partido, Administrador admin,Jugador jugador);
         List<Jugador> obtenerJugadoresParaAprobar();
         Table bindiarTablaConJugadores(Table tabla);
 		Table bindiarListaPartidoATabla(List<Partido> lista, Table table,

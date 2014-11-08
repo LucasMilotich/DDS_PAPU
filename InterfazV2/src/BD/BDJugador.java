@@ -27,10 +27,15 @@ public class BDJugador extends BDConnection
 		 
 	 }*/
 	
-	public void crearJugador(Integer DNI, String nombre, String apellido, int edad){
+	public void crearJugador(Integer DNI, String nombre, String apellido, int edad, Date fechaNacimiento){
 		Statement stmt1 = null;
 		Statement stmt = null;
 		ResultSet rs = null;
+		
+		int dia = fechaNacimiento.getDate();
+		int mes = fechaNacimiento.getMonth() + 1;
+		int anio = fechaNacimiento.getYear() + 1900;
+		
 		String query1 = "SELECT COUNT(*) AS count FROM JUGADORES WHERE DNI = "+ DNI;
 		try{
 			stmt1 = this.conn.createStatement();
@@ -39,8 +44,15 @@ public class BDJugador extends BDConnection
 			if(rs.getInt("count") != 0){
 				Notification.show("Un jugador con el mismo DNI ya existe en la Base de Datos",Type.ERROR_MESSAGE);
 			}else{
-				String query = "insert into JUGADORES (DNI,NOMBRE,APELLIDO,EDAD)  VALUES ('" 
-						+ DNI + "','"+ nombre +"','"+ apellido   + "','" + edad + "')" ;
+				String query = "insert into JUGADORES (DNI,NOMBRE,APELLIDO,EDAD,FECHANACIMIENTO,TUVOINFRACCIONES)  VALUES ('" 
+						+ DNI + "','"+ nombre +"','"+ apellido   + "','" + edad + "', "
+				+ "to_date('"
+				+ dia
+				+ "/"
+				+ mes
+				+ "/"
+				+ anio
+				+ "','dd/mm/yyyy'), '" + "NO" + "')" ;
 			    try {
 				   // stmt = this.conn.createStatement();
 				    rs = stmt1.executeQuery(query);
@@ -572,9 +584,13 @@ public class BDJugador extends BDConnection
 		
 	}
 
-	public void crearJugadorParaAprobar(Integer DNI, Partido partido, Integer DNIProponedor){
+	public void crearJugadorParaAprobar(Jugador jugador, Partido partido, Integer DNIProponedor){
 		BDPartido bdpartido;
 		Integer idPartido = null;
+		
+		int dia = jugador.getFechaNacimiento().getDate();
+		int mes = jugador.getFechaNacimiento().getMonth() + 1;
+		int anio = jugador.getFechaNacimiento().getYear() + 1900;
 		
 		try {
 			
@@ -587,14 +603,42 @@ public class BDJugador extends BDConnection
 		}
 		
 		Statement stmt = null;
-	    String query = "insert into JUGADORESPARAPAROBAR (JUGADORES, APROBADO, PARTIDO, JUGADOR_PROPONEDOR)  VALUES (" 
-		+ DNI + ",'"+ 0 + "',"+ idPartido +","+ DNIProponedor +")";
+	    String query = "insert into JUGADORESPARAPAROBAR (JUGADORES, APROBADO, PARTIDO, JUGADOR_PROPONEDOR, NOMBRE, APELLIDO, EDAD, FECHANACIMIENTO)  VALUES (" 
+		+ jugador.getDNI() + ",'"+ 0 + "',"+ idPartido +","+ DNIProponedor +" ,'"+ jugador.getNombre() + "', '"+ jugador.getApellido() + "', " + jugador.getEdad() + ", "
+				+ "to_date('"
+				+ dia
+				+ "/"
+				+ mes
+				+ "/"
+				+ anio
+				+ "','dd/mm/yyyy'))";
 	    
 	    try {
 	    stmt = this.conn.createStatement();
 	    ResultSet rs = stmt.executeQuery(query);
 	    System.out.println(rs);
 	    
+	    }
+	    catch(SQLException e){
+	    	 System.out.println(e);
+	    } finally {
+	        if (stmt != null) { try {
+				stmt.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} }
+	    }
+	}
+	
+	public void actualizarTuvoInfracciones(Integer dni){
+	 	Statement stmt = null;
+		String query = "update JUGADORES set TUVOINFRACCIONES = '"+ "SI" + "' where DNI=" + dni;
+	    try {
+	    stmt = this.conn.createStatement();
+	    ResultSet rs = stmt.executeQuery(query);
+	    System.out.println(rs);
+     
 	    }
 	    catch(SQLException e){
 	    	 System.out.println(e);

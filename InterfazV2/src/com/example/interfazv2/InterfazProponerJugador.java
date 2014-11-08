@@ -19,7 +19,6 @@ public class InterfazProponerJugador extends VerticalLayout implements View, Int
 	ViewListener listener ;
 	public VerticalLayout InterfazProponerJugador(){
 
-		Date datoFecha= null;
 		setSizeFull();
 		setSpacing(true);
 		setMargin(true);
@@ -45,6 +44,7 @@ public class InterfazProponerJugador extends VerticalLayout implements View, Int
 		layout.addComponents(partidosAnotados,campoDNI,nombre,apellido,campoEdad,campoFecha,confirmar);
 		
 		
+		
 		confirmar.addClickListener(new ClickListener() {
 			
 			@Override
@@ -53,7 +53,7 @@ public class InterfazProponerJugador extends VerticalLayout implements View, Int
 				
 				
 			            listener.proponerNuevoJugador(nombre.getValue(),apellido.getValue(),
-			            		DNI.getValue(),edad.getValue(),(Partido) partidosAnotados.getValue(),listener.getAdmin(),listener.getJugador());
+			            		DNI.getValue(),edad.getValue(), campoFecha.getValue(),(Partido) partidosAnotados.getValue(),listener.getAdmin(),listener.getJugador());
 					
 				
 				
