@@ -228,18 +228,15 @@ boolean empezado = false;
 	public boolean inscribirA(Jugador jugador, Inscripcion inscripcion) throws SQLException {
 		
 		BDInscripciones bdInscripciones = new BDInscripciones();
-		cantJugadores = bdInscripciones.obtenerCantInscripciones();
+		cantJugadores = bdInscripciones.obtenerCantInscripciones(this);
 		
 		BDInscripciones bdInscripciones2 = new BDInscripciones();
-		jugadoresEstandar = bdInscripciones2.obtenerCantEstandar();
+		jugadoresEstandar = bdInscripciones2.obtenerCantEstandar(this);
 		
 		if (jugadoresEstandar == 10) {
 			//Se cierra el partido (10 jugadores estandar)
-			this.cerrado = true;
-			BDPartido bd = new BDPartido();
-			bd.getConnection();
-			bd.cambiarEstCerrado(this);
 			this.setCerrado(true);
+			
 		}
 		
 		
@@ -254,12 +251,22 @@ boolean empezado = false;
 				if (inscripcion instanceof InscripcionEstandar) {
 					jugadoresEstandar++;
 				}
+				
+				if (jugadoresEstandar == 10) {
+					//Se cierra el partido (10 jugadores estandar)
+					this.setCerrado(true);
+				}
 			
+				Notification.show("Usted ha sido inscripto al partido");
+				
 				return true;
 			}
 			
 			if (cantJugadores == 10 && jugadoresEstandar == 10){
 				//ya hay 10 estandar
+				
+				Notification.show("Error, el partido está cerrado", Type.ERROR_MESSAGE);
+				
 				return false;
 			}
 			
@@ -304,6 +311,18 @@ boolean empezado = false;
 					bdinscr.actualizarInscripcionNoAceptada(inscrip);
 					inscripcion.setInscripto(true);
 					this.getListaDeInscripciones().add(inscripcion);
+					
+					Notification.show("Usted ha sido inscripto al partido");
+					
+					jugadoresEstandar++;
+					
+					if (jugadoresEstandar == 10) {
+						//Se cierra el partido (10 jugadores estandar)
+
+						this.setCerrado(true);
+					}
+					
+					
 					return true;
 				}
 			}
@@ -318,6 +337,19 @@ boolean empezado = false;
 					bdinscr.actualizarInscripcionNoAceptada(inscrip);
 					inscripcion.setInscripto(true);
 					this.getListaDeInscripciones().add(inscripcion);
+					
+					Notification.show("Usted ha sido inscripto al partido");
+					
+					jugadoresEstandar++;
+					
+					if (jugadoresEstandar == 10) {
+						//Se cierra el partido (10 jugadores estandar)
+
+						this.setCerrado(true);
+						
+					}
+					
+					
 					return true;
 				}
 			}
@@ -336,10 +368,15 @@ boolean empezado = false;
 					bdinscr.actualizarInscripcionNoAceptada(inscrip);
 					inscripcion.setInscripto(true);
 					this.getListaDeInscripciones().add(inscripcion);
+					
+					Notification.show("Usted ha sido inscripto al partido");
+					
 					return true;
 				}
 			}
 		}
+		
+		Notification.show("Usted no ha sido inscripto al partido");
 		
 		return false;
 	}

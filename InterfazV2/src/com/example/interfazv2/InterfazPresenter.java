@@ -35,6 +35,7 @@ import com.vaadin.ui.VerticalLayout;
 import BD.BDAdministrador;
 import BD.BDAmigo;
 import BD.BDConnection;
+import BD.BDInscripciones;
 import BD.BDJugador;
 import BD.BDPenalizaciones;
 import Logica.Administrador;
@@ -515,7 +516,11 @@ public class InterfazPresenter implements InterfazVistas.ViewListener {
 
 	public void confirmarUnPartido(Partido partido) {
 
-		this.getAdmin().cerrarInscripcion(partido);
+		this.getAdmin().getListaPartidosCerrados().remove(partido);
+		this.getAdmin().getListaPartidosConfirmados().add(partido);
+		partido.setConfirmado(true);
+		partido.setCerrado(true);
+		Notification.show("Partido confirmado");	
 
 	}
 
@@ -843,4 +848,35 @@ if(amigoDni != jugadorDNI){
 
 			
 		}
+		
+		
+		public List<Jugador> obtenerJugadoresPreSeleccionados(Partido partido){
+			 
+			List<Inscripcion> listaInscripcionesAceptadas = new ArrayList<Inscripcion>();
+			List<Jugador> listaJugadoresPreSeleccionados = new ArrayList<Jugador>();
+			
+			BDInscripciones bdInscripcion = new BDInscripciones();
+			try {
+				bdInscripcion.getConnection();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			listaInscripcionesAceptadas = bdInscripcion.obtenerInscripcionesAceptadas(partido);
+			
+			Iterator<Inscripcion> iterator = listaInscripcionesAceptadas.iterator();
+			Inscripcion inscrip = null;
+			while(iterator.hasNext()){
+				inscrip = iterator.next();
+				listaJugadoresPreSeleccionados.add(inscrip.getJugador());
+				partido.getListaJugadoresSeleccionados().add(inscrip.getJugador());
+			}
+			
+			
+			return listaJugadoresPreSeleccionados;
+		}
+		
+		
+		
 }

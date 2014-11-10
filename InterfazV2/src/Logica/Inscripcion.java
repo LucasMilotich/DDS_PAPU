@@ -68,12 +68,12 @@ public class Inscripcion implements Serializable {
 		this.inscripto = inscripto;
 	}
 
-	public void inscribirA(Jugador jugador, Partido partido)
+	/*public void inscribirA(Jugador jugador, Partido partido)
 			throws SQLException {
 		this.setInscripto(partido.inscribirA(jugador, this));
 		this.setJugador(jugador);
 		this.setPartido(partido);
-	}
+	}*/
 
 	public Partido getPartido() {
 		return partido;

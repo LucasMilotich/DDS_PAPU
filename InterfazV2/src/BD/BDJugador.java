@@ -314,7 +314,7 @@ public class BDJugador extends BDConnection
 		}
 	    String query = "insert into INSCRIPCIONES (JUGADOR, INSCRIPCIONACEPTADA, PARTIDO, TIPOINSCRIPCION)  VALUES ('" 
 		+ DNI + "','"+ bool +"','"+ idPartido +"','"+ tipo + "')" ;
-	    this.crearInscripcionJugPar(DNI, idPartido);
+	    //this.crearInscripcionJugPar(DNI, idPartido);
 	    try {
 	    stmt = this.conn.createStatement();
 	    ResultSet rs = stmt.executeQuery(query);
@@ -333,7 +333,7 @@ public class BDJugador extends BDConnection
 	    }
 	}
 	
-	public void crearInscripcionJugPar(Integer DNI, Integer partido){
+/*	public void crearInscripcionJugPar(Integer DNI, Integer partido){
 		Statement stmt = null;
 	    String query = "insert into JUGADORES_PARTIDO (JUGADORES, PARTIDO,CONFIRMADO)  VALUES ('" 
 		+ DNI +"','"+ partido + "',0)" ;
@@ -354,6 +354,7 @@ public class BDJugador extends BDConnection
 			} }
 	    }
 	}
+*/
 	
 	public void borrarJugador(Jugador jugador){
 		Statement stmt = null;

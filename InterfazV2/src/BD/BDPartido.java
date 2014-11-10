@@ -268,7 +268,7 @@ public class BDPartido extends BDConnection {
 		Partido partido = null;
 		Statement stmt = null;
 		ResultSet rs;
-		String query = "select * from partidos where cerrado=" + 0;
+		String query = "select * from partidos where cerrado=0";
 
 		try {
 			BDCalificacion bdCalifi= new BDCalificacion();
@@ -850,5 +850,125 @@ public class BDPartido extends BDConnection {
 		
 		return calificaciones;
 	}
+	
+	
+	public List<Partido> obtenerTodosLosPartidos(){
+		
+		List<Partido> partidos = new ArrayList<Partido>();
+
+		Partido partido = null;
+		Statement stmt = null;
+		ResultSet rs;
+		String query = "select * from partidos";
+
+		try {
+			BDCalificacion bdCalifi= new BDCalificacion();
+			bdCalifi.getConnection();
+			
+			stmt = this.conn.createStatement();
+			rs = stmt.executeQuery(query);
+			for (int i = 1; rs.next(); i++) {
+				partido = new Partido();
+				partido.setFecha(rs.getDate("FECHA"));
+				partido.setLugar(rs.getString("LUGAR"));
+				partido.setNombre(rs.getString("NOMBRE"));
+				partido.actualizarCerrado(rs.getBoolean("CERRADO"));
+				partido.setTerminado(rs.getBoolean("TERMINADO"));
+				partido.setEmpezado(rs.getBoolean("EMPEZADO"));
+				partido.actualizarConfirmado(rs.getBoolean("CONFIRMADO"));
+				partido.setHora(rs.getString("HORA"));
+				partidos.add(partido);
+				partido.setListaDeJugadores(this.obtenerJugadoresDePartido(partido));
+
+				// ya esta hecho
+				partido.setListaDeInscripciones(this
+						.obtenerInscripcionesDePartido(partido));
+
+				// FALTAN HACER
+				partido.setListaCalificaciones(bdCalifi.obtenerCalificacionesPorPartido(partido));
+			}
+
+			System.out.println(rs);
+
+		} catch (SQLException e) {
+			System.out.println(e);
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+
+		
+		return partidos;
+	}
+	
+	public List<Partido> obtenerPartidosParaGenerar() {
+
+		List<Partido> partidos = new ArrayList<Partido>();
+
+		Partido partido = null;
+		Statement stmt = null;
+		ResultSet rs;
+		String query = "select * from partidos where confirmado=0 and empezado = 0 and terminado = 0";
+
+		try {
+			BDCalificacion bdCalifi= new BDCalificacion();
+			bdCalifi.getConnection();
+			stmt = this.conn.createStatement();
+			rs = stmt.executeQuery(query);
+			for (int i = 1; rs.next(); i++) {
+				partido = new Partido();
+				partido.setFecha(rs.getDate("FECHA"));
+				partido.setLugar(rs.getString("LUGAR"));
+				partido.setNombre(rs.getString("NOMBRE"));
+				partido.actualizarCerrado(rs.getBoolean("CERRADO"));
+				partido.setTerminado(rs.getBoolean("TERMINADO"));
+				partido.setEmpezado(rs.getBoolean("EMPEZADO"));
+				partido.setHora(rs.getString("HORA"));
+				partido.actualizarConfirmado(rs.getBoolean("CONFIRMADO"));
+				partidos.add(partido);
+				partido.setListaDeJugadores(this
+						.obtenerJugadoresDePartido(partido));
+
+				// ver donde mierda guardar los jug seleccionados, si en una
+				// tabla o en jugadores_partido pero, con los q no juegan,
+				// deleteados
+				// FALTA HACER
+				partido.setJugadoresSeleccionados(this
+						.obtenerJugadoresSeleccionadosDe(partido));
+
+				// ya esta hecho
+				partido.setListaDeInscripciones(this
+						.obtenerInscripcionesDePartido(partido));
+
+				// FALTAN HACER
+				partido.setListaCalificaciones(bdCalifi.obtenerCalificacionesPorPartido(partido));
+			}
+
+			System.out.println(rs);
+
+		} catch (SQLException e) {
+			System.out.println(e);
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return partidos;
+
+	}
+	
+	
 	
 }

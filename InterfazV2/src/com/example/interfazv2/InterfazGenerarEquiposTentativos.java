@@ -74,6 +74,10 @@ public class InterfazGenerarEquiposTentativos extends VerticalLayout implements
 		Button confirmarNivelDeJuego = new Button("Confirmar");
 		final TextField numeroDePartidos = new TextField(
 				"Número de partidos a considerar: ");
+		
+		
+		Button confirmarEquipos = new Button("Confirmar equipos");
+		
 		layoutPantallaNivelJuego.addComponents(nivelesDeJuego,
 				confirmarNivelDeJuego);
 		layoutPantallaNivelJuego.setMargin(true);
@@ -105,15 +109,14 @@ public class InterfazGenerarEquiposTentativos extends VerticalLayout implements
 		/*
 		 * panel3.addComponents(); panel4.addComponents();
 		 */
-		panel2.addComponents(panel3, equipoA, panel4, equipoB);
+		panel2.addComponents(panel3, equipoA, panel4, equipoB, confirmarEquipos);
 		vistaJugador.center();
 		vistaJugador.setHeight("80%");
 		vistaJugador.setWidth("70%");
 		partidos.setItemCaptionPropertyId("nombre");
 		listaDeJugadoresPorPartido.setSelectable(true);
 
-		listener.bindiarListaPartidoACombo(listener.getAdmin()
-				.getListaPartidosConfirmados(), partidos, null);
+		listener.bindiarListaPartidoACombo(listener.getAdmin().getListaPartidosParaGenerarEquipos(), partidos, null);
 
 		// partidos.addValueChangeListener(new ValueChangeL)
 		// listener.obtenerJugadoresDeUnPartido((Partido)partidos.getValue());
@@ -123,8 +126,7 @@ public class InterfazGenerarEquiposTentativos extends VerticalLayout implements
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				listener.bindiarTablaConJugadoresEnLista(
-						listaDeJugadoresPorPartido,
-						listener.obtenerJugadoresSeleccionadosDeUnPartido((Partido) partidos
+						listaDeJugadoresPorPartido, listener.obtenerJugadoresPreSeleccionados((Partido) partidos
 								.getValue()));
 
 				listaDeJugadoresPorPartido.setVisibleColumns(new String[] {
@@ -264,9 +266,22 @@ public class InterfazGenerarEquiposTentativos extends VerticalLayout implements
 							Type.ERROR_MESSAGE);
 			}
 		});
+		
+		
+		confirmarEquipos.addClickListener(new ClickListener() {
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				
+				listener.confirmarUnPartido((Partido) partidos.getValue());
+
+			}
+		});
+		
 		listener.agregarEfectosColores(listaDeJugadoresPorPartido);
 		return layout;
 	}
+	
 
 	@Override
 	public void buttonClick(ClickEvent event) {

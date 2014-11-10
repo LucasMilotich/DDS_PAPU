@@ -146,6 +146,16 @@ public class Administrador implements Serializable {
 	}
 
 	public List<Partido> getListaPartidos() {
+		
+/*		BDPartido bdPartido = new BDPartido();
+		try {
+			bdPartido.getConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		listaPartidos = bdPartido.obtenerTodosLosPartidos();
+*/		
 		return listaPartidos;
 	}
 
@@ -292,7 +302,7 @@ public class Administrador implements Serializable {
 		}
 	}
 
-	public void cerrarInscripcion(Partido partido) { // ordena listaJug (del
+	/*public void cerrarInscripcion(Partido partido) { // ordena listaJug (del
 														// parti) y la pasa a
 														// listaJugSeleccionados
 														// (del parti)
@@ -377,7 +387,7 @@ public class Administrador implements Serializable {
 		Notification.show("Partido confirmado");
 		}
 		else Notification.show("No hay suficientes jugadores", Type.ERROR_MESSAGE);
-	}
+	} */
 
 	public void borrarJugador(Jugador jugador) {
 		this.listaDeJugadores.remove(jugador);
@@ -534,6 +544,22 @@ public class Administrador implements Serializable {
 		}
 		
 		else Notification.show("El partido no está empezado, o ya terminó", Type.ERROR_MESSAGE);
+	}
+	
+	public List<Partido> getListaPartidosParaGenerarEquipos() {
+		
+		List<Partido> listaPartidosGenerarEquipos = new ArrayList<Partido>();
+		
+		BDPartido bdPartido = new BDPartido();
+		try {
+			bdPartido.getConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		listaPartidosGenerarEquipos = bdPartido.obtenerPartidosParaGenerar();
+		
+		return listaPartidosGenerarEquipos;
 	}
 	
 }

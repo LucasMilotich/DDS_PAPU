@@ -12,6 +12,7 @@ import Logica.InscripcionCondicional;
 import Logica.InscripcionEstandar;
 import Logica.InscripcionSolidaria;
 import Logica.Jugador;
+import Logica.Partido;
 
 public class BDInscripciones extends BDConnection {
 	/* public BDInscripciones() throws SQLException{
@@ -271,13 +272,23 @@ public class BDInscripciones extends BDConnection {
 		    }
 	 }
 	 
-	 public Integer obtenerCantInscripciones(){
+	 public Integer obtenerCantInscripciones(Partido partido){
 
+			BDPartido bdPartido = new BDPartido();
+			try {
+				bdPartido.getConnection();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			int idPartido = bdPartido.obtenerIDPartido(partido.getNombre(), partido.getLugar(), partido.getFecha());
+		 
 		 int cantInscrip = 0;
 		 
 				Statement stmt = null;
 				ResultSet rs;
-			    String query = "select COUNT(*) from inscripciones where INSCRIPCIONACEPTADA = 1";
+			    String query = "select COUNT(*) from inscripciones where INSCRIPCIONACEPTADA = 1 and PARTIDO = " + idPartido;
 			    try {
 			    this.getConnection();
 			    stmt = this.conn.createStatement();
@@ -299,13 +310,24 @@ public class BDInscripciones extends BDConnection {
 		return cantInscrip;
 	 }
 	 
-	 public Integer obtenerCantEstandar(){
+	 public Integer obtenerCantEstandar(Partido partido){
 
+			BDPartido bdPartido = new BDPartido();
+			try {
+				bdPartido.getConnection();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			int idPartido = bdPartido.obtenerIDPartido(partido.getNombre(), partido.getLugar(), partido.getFecha());
+		 
+		 
 		 int cantEstandar = 0;
 		 
 				Statement stmt = null;
 				ResultSet rs;
-			    String query = "select COUNT(*) from inscripciones where TIPOINSCRIPCION = 1";
+			    String query = "select COUNT(*) from inscripciones where TIPOINSCRIPCION = 1 and PARTIDO = " + idPartido;
 			    try {
 			    this.getConnection();
 			    stmt = this.conn.createStatement();
@@ -325,6 +347,66 @@ public class BDInscripciones extends BDConnection {
 				} }
 		    } 
 		return cantEstandar;
+	 }
+	 
+	 
+	 public List<Inscripcion> obtenerInscripcionesAceptadas (Partido partido){
+		 
+		BDPartido bdPartido = new BDPartido();
+		try {
+			bdPartido.getConnection();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		int idPartido = bdPartido.obtenerIDPartido(partido.getNombre(), partido.getLugar(), partido.getFecha());
+		 
+		Inscripcion inscripcion = null;
+		List<Inscripcion> listaInscripcionesAceptadas = new ArrayList<Inscripcion>();
+		Statement stmt = null;
+		ResultSet rs;
+	    String query = "SELECT * FROM INSCRIPCIONES WHERE INSCRIPCIONACEPTADA = 1 AND PARTIDO = " + idPartido;
+		    
+	    try {
+		    stmt = this.conn.createStatement();
+		    rs = stmt.executeQuery(query);
+		    
+		    for (int i=1; rs.next(); i++){
+			     
+		    	if(rs.getInt("TIPOINSCRIPCION")==1){
+			    	 inscripcion = new InscripcionEstandar();
+			     }else if(rs.getInt("TIPOINSCRIPCION")==2){
+			    	 inscripcion = new InscripcionSolidaria();
+			     }else if(rs.getInt("TIPOINSCRIPCION")==3){
+			    	 inscripcion = new InscripcionCondicional();
+			     }
+			     
+			     BDJugador bdJugador = new BDJugador();
+			     bdJugador.getConnection();
+		    	
+			     inscripcion.setJugador(bdJugador.obtenerJugador(rs.getInt("JUGADOR")));
+			     inscripcion.setInscripto(rs.getBoolean("INSCRIPCIONACEPTADA"));
+			     inscripcion.setPartido(partido);
+			     
+			     listaInscripcionesAceptadas.add(inscripcion);
+			     
+		 }
+		 System.out.println(rs);
+	     
+	    }
+	    catch(SQLException e){
+	    	System.out.println(e);	
+	    } finally {
+	        if (stmt != null) { try {
+				stmt.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} }
+	   }
+		 
+		 return listaInscripcionesAceptadas;
 	 }
 	 
 	 
