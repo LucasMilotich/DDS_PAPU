@@ -138,7 +138,7 @@ public class Jugador extends ObservableJugadores implements Serializable {
 		return nivelDeJuego;
 	}
 
-	public void setNivelDeJuego(int nivelDeJuego) {
+	public void setNivelDeJuegoBD(int nivelDeJuego) {
 		this.nivelDeJuego = nivelDeJuego;
 		BDJugador bd;
 		try {
@@ -330,7 +330,7 @@ public class Jugador extends ObservableJugadores implements Serializable {
 			bd.getConnection();
 			//bd.crearJugador(dni, nombre, apellido, edad);
 			bd.crearJugadorParaAprobar(jugador, partido,this.getDNI());
-			Notification.show("Nuevo jugador para aprobar AGREGADO");
+			Notification.show("Nuevo jugador para aprobar agregado");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

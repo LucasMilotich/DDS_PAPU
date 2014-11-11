@@ -514,16 +514,38 @@ public class InterfazPresenter implements InterfazVistas.ViewListener {
 	}
 
 	public void cambiarNivelDeJuego(Jugador jugador, Integer nota) {
-		jugador.setNivelDeJuego(nota);
-
+		jugador.setNivelDeJuegoBD(nota);
+		
 		Notification.show("Puntaje " + nota + " asignado al jugador "
 				+ jugador.getNombre());
 	}
 
 	public void confirmarUnPartido(Partido partido) {
-
-		this.getAdmin().getListaPartidos().remove(partido);
-		this.getAdmin().getListaPartidosCerrados().remove(partido);
+		
+		//No son el mismo obj, no se borra...
+		
+		//borro de partidos abiertos
+		Iterator<Partido> iteratorPartido = this.getAdmin().getListaPartidos().iterator();
+		while(iteratorPartido.hasNext()){
+			Partido partidoLista  = iteratorPartido.next();
+			
+			if(partidoLista.getFecha() == partido.getFecha() && partidoLista.getNombre() == partido.getNombre() && partidoLista.getLugar() == partido.getLugar()){
+				this.getAdmin().getListaPartidos().remove(partidoLista);
+				
+			}
+		}
+	
+		//borro de partidos cerrados
+		iteratorPartido = this.getAdmin().getListaPartidosCerrados().iterator();
+		while(iteratorPartido.hasNext()){
+			Partido partidoLista  = iteratorPartido.next();
+			
+			if(partidoLista.getFecha() == partido.getFecha() && partidoLista.getNombre() == partido.getNombre() && partidoLista.getLugar() == partido.getLugar()){
+				this.getAdmin().getListaPartidosCerrados().remove(partidoLista);
+				
+			}
+		}
+		
 		this.getAdmin().getListaPartidosConfirmados().add(partido);
 		partido.setConfirmado(true);
 		partido.setCerrado(true);

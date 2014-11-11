@@ -74,6 +74,8 @@ public class InterfazGenerarEquiposTentativos extends VerticalLayout implements
 		Button confirmarNivelDeJuego = new Button("Confirmar");
 		final TextField numeroDePartidos = new TextField(
 				"Número de partidos a considerar: ");
+		final Button verMasInfo = new Button("Ver más información del jugador");
+		
 		
 		
 		Button confirmarEquipos = new Button("Confirmar equipos");
@@ -86,7 +88,7 @@ public class InterfazGenerarEquiposTentativos extends VerticalLayout implements
 		pantallaNivelJuego.center();
 		pantallaNivelJuego.setContent(layoutPantallaNivelJuego);
 
-		panel5.addComponents(cambiarNivelDeJuego);
+		panel5.addComponents(cambiarNivelDeJuego,verMasInfo);
 		setSizeFull();
 		addComponent(layout);
 		panel.setSizeFull();
@@ -142,16 +144,7 @@ public class InterfazGenerarEquiposTentativos extends VerticalLayout implements
 					@Override
 					public void itemClick(ItemClickEvent event) {
 						// TODO Auto-generated method stub
-						listener.setJugador(((BeanItem<Jugador>) event
-								.getItem()).getBean());
-						// listener.setJugador((Jugador)
-						// listaDeJugadoresPorPartido.getValue());
-						final InterfazDatosJugador InterfazDatosJugador = new InterfazDatosJugador();
-						InterfazDatosJugador.addListener(listener);
-						listener.setVista(InterfazDatosJugador);
-						vistaJugador.setContent(InterfazDatosJugador
-								.InterfazDatosJugador());
-						UI.getCurrent().addWindow(vistaJugador);
+					
 					}
 				});
 		/*
@@ -176,6 +169,22 @@ public class InterfazGenerarEquiposTentativos extends VerticalLayout implements
 				// TODO Auto-generated method stub
 				UI.getCurrent().addWindow(pantallaNivelJuego);
 
+			}
+		});
+		verMasInfo.addClickListener(new ClickListener() {
+			
+			@Override
+			public void buttonClick(ClickEvent event) {
+				listener.setJugador(((BeanItem<Jugador>) listaDeJugadoresPorPartido.getValue()).getBean());
+				// listener.setJugador((Jugador)
+				// listaDeJugadoresPorPartido.getValue());
+				final InterfazDatosJugador InterfazDatosJugador = new InterfazDatosJugador();
+				InterfazDatosJugador.addListener(listener);
+				listener.setVista(InterfazDatosJugador);
+				vistaJugador.setContent(InterfazDatosJugador
+						.InterfazDatosJugador());
+				UI.getCurrent().addWindow(vistaJugador);
+				
 			}
 		});
 
@@ -261,6 +270,8 @@ public class InterfazGenerarEquiposTentativos extends VerticalLayout implements
 							"apellido", "edad", "nivelDeJuego" });
 					equipoB.setVisibleColumns(new String[] { "nombre",
 							"apellido", "edad", "nivelDeJuego" });
+					listener.agregarEfectosColores(equipoA);
+					listener.agregarEfectosColores(equipoB);
 				} else
 					Notification.show("Ingrese los nombres de los equipos",
 							Type.ERROR_MESSAGE);

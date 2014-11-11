@@ -288,7 +288,7 @@ public class Administrador implements Serializable {
 				bdAdministrador.borrarJugadorParaArpobar(jugador.DNI);
 				
 				Notification.show("El jugador " + jugador.getNombre()
-						+ "NO ha sido agregado");
+						+ " no ha sido agregado");
 				
 				
 			} catch (SQLException e) {

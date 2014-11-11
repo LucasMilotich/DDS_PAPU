@@ -24,6 +24,7 @@ import com.vaadin.sass.internal.parser.function.ListAppendFunctionGenerator;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Table;
+import com.vaadin.ui.Table.ColumnGenerator;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -154,8 +155,21 @@ public class InterfazVerPartidos extends VerticalLayout implements View, Interfa
 			public void itemClick(ItemClickEvent event) {
 				// TODO Auto-generated method stub
 				listener.bindiarListaInscripcionesATabla(((BeanItem<Partido>) event.getItem()).getBean().getListaDeInscripciones(), listaDeInscripciones);
-				listaDeInscripciones.setVisibleColumns(new String[]{"jugador.nombre","jugador.apellido","tipoInscripcion"});
-				
+				listaDeInscripciones.addGeneratedColumn("inscripcionAceptada", new ColumnGenerator() {
+					
+					@Override
+					public Object generateCell(Table source, Object itemId, Object columnId) {
+						// TODO Auto-generated method stub
+						if(((BeanItem<Inscripcion>)source.getContainerDataSource().getItem(itemId)).getBean().isInscripto())
+						return "SI";
+						else
+							return "NO";
+						
+					}
+				});
+				listaDeInscripciones.setVisibleColumns(new String[]{"jugador.nombre","jugador.apellido","tipoInscripcion","inscripcionAceptada"});
+				listaDeInscripciones.setColumnHeaders(new String[] {
+						" Nombre", "Apellido", "Tipo de inscripción", "Inscripción aceptada" });
 			}
 		});
 			//Busco dato del jugador de la inscripcion

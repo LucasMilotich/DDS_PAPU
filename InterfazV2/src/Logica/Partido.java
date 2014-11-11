@@ -339,7 +339,7 @@ boolean empezado = false;
 				
 				if (inscrip.inscripto == true && inscrip instanceof InscripcionSolidaria) {
 					inscrip.inscripto = false;
-					
+					//ACA UN JUGADOR SOLIDARIO DESPLAZA A UN SOLIDARIO
 					bdinscr.actualizarInscripcionNoAceptada(inscrip);
 					inscripcion.setInscripto(true);
 					admin.getListaPartidosCerrados().add(this);
