@@ -258,7 +258,7 @@ public class Jugador extends ObservableJugadores implements Serializable {
 			Notification.show("ERROR, NO HAY PARTIDOS INSCRIPTOS");
 		return null;
 
-	}
+	}	
 	
 	public List<Partido> obtenerPartidosInscriptoParaMostrarBaja() {
 		List<Inscripcion> listaDeInscripciones = this.getListaDeInscripciones();

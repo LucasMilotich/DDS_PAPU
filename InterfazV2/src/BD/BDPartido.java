@@ -143,33 +143,6 @@ public class BDPartido extends BDConnection {
 		return partido;
 	}
 
-	public List<Inscripcion> obtenerListaInscripciones(Integer id) {
-		List<Inscripcion> inscripciones = new ArrayList<Inscripcion>();
-		Statement stmt = null;
-		ResultSet rs;
-		String query = "";
-
-		try {
-			stmt = this.conn.createStatement();
-			rs = stmt.executeQuery(query);
-
-			System.out.println(rs);
-
-		} catch (SQLException e) {
-			System.out.println(e);
-		} finally {
-			if (stmt != null) {
-				try {
-					stmt.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-		return inscripciones;
-	}
-
 	public Integer obtenerIDPartido(String nombre, String lugar, Date fecha) {
 		int dia = 0;
 		int mes = 0;
