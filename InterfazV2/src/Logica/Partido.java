@@ -293,6 +293,16 @@ boolean empezado = false;
 	
 	public boolean entraOSale(Jugador jugador, Inscripcion inscripcion, Administrador admin){
 		
+		//levanto inscripciones del partido y la cargo en listaInscripciones
+		BDPartido bdPartido = new BDPartido();
+		try {
+			bdPartido.getConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.setListaDeInscripciones(bdPartido.obtenerInscripcionesDePartido(this));
+		
 		BDInscripciones bdinscr = new BDInscripciones();
 		try {
 			bdinscr.getConnection();

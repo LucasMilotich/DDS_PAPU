@@ -327,7 +327,7 @@ public class BDInscripciones extends BDConnection {
 		 
 				Statement stmt = null;
 				ResultSet rs;
-			    String query = "select COUNT(*) from inscripciones where TIPOINSCRIPCION = 1 and PARTIDO = " + idPartido;
+			    String query = "select COUNT(*) from inscripciones where INSCRIPCIONACEPTADA = 1 and TIPOINSCRIPCION = 1 and PARTIDO = " + idPartido;
 			    try {
 			    this.getConnection();
 			    stmt = this.conn.createStatement();
