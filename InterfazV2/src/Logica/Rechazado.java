@@ -22,7 +22,7 @@ String motivo;
 
 
 
-Jugador jugadorPropuesto;
+//Jugador jugadorPropuesto;
 
 
 Jugador jugadorProponedor;
@@ -41,9 +41,7 @@ public String getMotivo() {
 	return motivo;
 }
 
-public Jugador getJugadorPropuesto() {
-	return jugadorPropuesto;
-}
+
 
 public Jugador getJugadorProponedor() {
 	return jugadorProponedor;
@@ -57,9 +55,6 @@ public void setFecha(Date fecha){
 	this.fecha = fecha;
 }
 
-public void setJugadorPropuesto(Jugador jugadorPropuesto){
-	this.jugadorPropuesto = jugadorPropuesto;
-}
 
 public void setJugadorProponedor(Jugador jugadorProponedor){
 	this.jugadorProponedor = jugadorProponedor;

@@ -203,7 +203,7 @@ public class Administrador implements Serializable {
 			Jugador jugadorProponedor,Date fechaPartido,String nombrePartido,String lugarPartido) {
 		Rechazado rechazado = new Rechazado();
 		rechazado.jugadorProponedor = jugadorProponedor;
-		rechazado.jugadorPropuesto = jugadorPropuesto;
+		//rechazado.jugadorPropuesto = jugadorPropuesto;
 		rechazado.motivo = motivo;
 		java.util.Date fecha = new Date();
 		rechazado.fecha = fecha;
@@ -252,7 +252,7 @@ public class Administrador implements Serializable {
 				IdInscripcion = bdInscripciones.obtenerInscripcionIdPorPartidoYDni(DniProponedor);
 				inscripcion = bdInscripciones.obtenerInscripcionPorID(IdInscripcion);
 				
-				jugador.inscribirseAUn(partido, inscripcion);
+				jugador.inscribirseAUn(partido, inscripcion, this);
 				
 				//Notification.show("El jugador " + jugador.getNombre()
 					//	+ " ha sido agregado" +inscripcion.getID());

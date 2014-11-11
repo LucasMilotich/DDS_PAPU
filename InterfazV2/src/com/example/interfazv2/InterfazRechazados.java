@@ -47,8 +47,7 @@ public class InterfazRechazados extends VerticalLayout implements View,
 */
 				listener.obtenerRechazosYBindiarDeUnPartido(rechazos,
 						null);
-				rechazos.setVisibleColumns(new String[] { "motivo", "jugadorPropuesto.nombre",
-						"jugadorPropuesto.apellido", "jugadorProponedor.nombre","jugadorProponedor.apellido","fecha" });
+				rechazos.setVisibleColumns(new String[] { "motivo", "nombre", "apellido", "jugadorProponedor.nombre","jugadorProponedor.apellido","fecha" });
 				rechazos.setColumnHeaders(new String[] { " Motivo", "Nombre del propuesto",
 						"Apellido del propuesto", "Nombre proponedor","Apellido proponedor", "Fecha" });
 	/*		}

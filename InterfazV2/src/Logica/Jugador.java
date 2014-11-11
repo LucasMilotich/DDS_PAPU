@@ -176,11 +176,11 @@ public class Jugador extends ObservableJugadores implements Serializable {
 		this.amigos = amigos;
 	}
 
-	public void inscribirseAUn(Partido partido, Inscripcion inscripcion)
+	public void inscribirseAUn(Partido partido, Inscripcion inscripcion, Administrador admin)
 			throws SQLException {
 
 		inscripcion.crearInscripcion(inscripcion, this, partido,
-				partido.inscribirA(this, inscripcion));
+				partido.inscribirA(this, inscripcion, admin));
 
 		this.getListaDeInscripciones().add(inscripcion);
 	}
@@ -259,7 +259,28 @@ public class Jugador extends ObservableJugadores implements Serializable {
 		return null;
 
 	}
+	
+	public List<Partido> obtenerPartidosInscriptoParaMostrarBaja() {
+		List<Inscripcion> listaDeInscripciones = this.getListaDeInscripciones();
+		if (listaDeInscripciones != null) {
+			Iterator<Inscripcion> iterator = listaDeInscripciones.iterator();
+			List<Partido> lista = new ArrayList<Partido>();
+			Inscripcion inscrip = null;
+			while (iterator.hasNext()) {
+				inscrip = iterator.next();
+				if (inscrip.isInscripto() == true && inscrip.getPartido().isCerrado() == false && 
+						inscrip.getPartido().isConfirmado() == false && inscrip.getPartido().isEmpezado() == false && 
+						inscrip.getPartido().isTerminado() == false)
+					lista.add(inscrip.getPartido());
 
+			}
+
+			return lista;
+		} else
+			Notification.show("ERROR, NO HAY PARTIDOS INSCRIPTOS");
+		return null;
+
+	}
 	/*
 	 * public void recibirRespuestaNuevoJugadorRechazado(String mensaje, Jugador
 	 * jugadorPropuesto, Jugador jugadorProponedor, Administrador admin) {
@@ -309,6 +330,7 @@ public class Jugador extends ObservableJugadores implements Serializable {
 			bd.getConnection();
 			//bd.crearJugador(dni, nombre, apellido, edad);
 			bd.crearJugadorParaAprobar(jugador, partido,this.getDNI());
+			Notification.show("Nuevo jugador para aprobar AGREGADO");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -566,5 +588,4 @@ public class Jugador extends ObservableJugadores implements Serializable {
 		}
 		return puntajeTotal;
 	}
-
 }

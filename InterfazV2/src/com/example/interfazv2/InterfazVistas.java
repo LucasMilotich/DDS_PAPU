@@ -40,6 +40,7 @@ public interface InterfazVistas {
         void setAdmin(Administrador admin);
         void crearPartido(Date datoFecha,String datoHora,String datoNombre,String datoLugar);
         List<Partido> obtenerPartidosInscriptos();
+        List<Partido> obtenerPartidosInscriptosParaMostrarBaja();
         void darDeBaja(Partido partido, Jugador reeemplazo) throws SQLException;
         void proponerNuevoJugador(String nombre, String apellido,int dni, int edad, Date fechaNacimiento, Partido partido, Administrador admin,Jugador jugador);
         List<Jugador> obtenerJugadoresParaAprobar();

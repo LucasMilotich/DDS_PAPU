@@ -268,7 +268,7 @@ public class BDPartido extends BDConnection {
 		Partido partido = null;
 		Statement stmt = null;
 		ResultSet rs;
-		String query = "select * from partidos where cerrado=0";
+		String query = "select * from partidos where cerrado=0 and confirmado=0 and empezado=0 and terminado=0";
 
 		try {
 			BDCalificacion bdCalifi= new BDCalificacion();

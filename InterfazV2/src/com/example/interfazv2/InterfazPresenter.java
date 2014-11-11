@@ -101,7 +101,7 @@ public class InterfazPresenter implements InterfazVistas.ViewListener {
 	public void inscribirAPartido(Partido partido, Inscripcion inscripcion)
 			throws SQLException {
 		// TODO Auto-generated method stub
-		jugador.inscribirseAUn(partido, inscripcion);
+		jugador.inscribirseAUn(partido, inscripcion, admin);
 		if (inscripcion.isInscripto() == false) {
 			Notification.show("Hubo un error y usted no fue inscripto");
 		}
@@ -116,7 +116,7 @@ public class InterfazPresenter implements InterfazVistas.ViewListener {
 		// partido.inscribirA(jugador, inscripcion);
 
 		// INS.addEntity((Inscripcion)inscripcion);
-		jugador.inscribirseAUn(partido, inscripcion);
+		jugador.inscribirseAUn(partido, inscripcion, admin);
 
 	}
 
@@ -130,7 +130,7 @@ public class InterfazPresenter implements InterfazVistas.ViewListener {
 
 		// partido.inscribirA(jugador, inscripcion);
 
-		jugador.inscribirseAUn(partido, inscripcion);
+		jugador.inscribirseAUn(partido, inscripcion, admin);
 	}
 
 	@Override
@@ -140,7 +140,7 @@ public class InterfazPresenter implements InterfazVistas.ViewListener {
 		inscripcion = new InscripcionSolidaria();
 		// inscripcion.crearInscripcion(inscripcion, jugador, partido, false);
 
-		jugador.inscribirseAUn(partido, inscripcion);
+		jugador.inscribirseAUn(partido, inscripcion, admin);
 	}
 
 	@Override
@@ -197,7 +197,13 @@ public class InterfazPresenter implements InterfazVistas.ViewListener {
 		// TODO Auto-generated method stub
 		return this.jugador.obtenerPartidosInscripto();
 	}
-
+	
+	@Override
+	public List<Partido> obtenerPartidosInscriptosParaMostrarBaja() {
+		// TODO Auto-generated method stub
+		return this.jugador.obtenerPartidosInscriptoParaMostrarBaja();
+	}
+	
 	@Override
 	public void darDeBaja(Partido partido, Jugador Reemplazo)
 			throws SQLException {
@@ -226,7 +232,7 @@ public class InterfazPresenter implements InterfazVistas.ViewListener {
 
 			}
 			this.jugador.bajaDeUn(partido);
-			Reemplazo.inscribirseAUn(partido, inscripcion);
+			Reemplazo.inscribirseAUn(partido, inscripcion, admin);
 			Notification.show("Has sido dado de baja sin penalización");
 		} else {
 			Penalizacion penalizacion = new Penalizacion();
@@ -516,6 +522,7 @@ public class InterfazPresenter implements InterfazVistas.ViewListener {
 
 	public void confirmarUnPartido(Partido partido) {
 
+		this.getAdmin().getListaPartidos().remove(partido);
 		this.getAdmin().getListaPartidosCerrados().remove(partido);
 		this.getAdmin().getListaPartidosConfirmados().add(partido);
 		partido.setConfirmado(true);
@@ -760,8 +767,8 @@ if(amigoDni != jugadorDNI){
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		container.addNestedContainerProperty("jugadorPropuesto.nombre");
-		container.addNestedContainerProperty("jugadorPropuesto.apellido");
+		//container.addNestedContainerProperty("jugadorPropuesto.nombre");
+		//container.addNestedContainerProperty("jugadorPropuesto.apellido");
 		container.addNestedContainerProperty("jugadorProponedor.nombre");
 		container.addNestedContainerProperty("jugadorProponedor.apellido");
 		

@@ -75,7 +75,7 @@ public class BDAdministrador extends BDConnection {
 		 List<Rechazado> rechazados = new ArrayList<Rechazado>();
 		 Statement stmt = null;
 		 ResultSet rs;
-		 String query = "SELECT * FROM RECHAZOS";
+		 String query = "SELECT * FROM RECHAZOS R,JUGADORESPARAPAROBAR J WHERE R.DNIPROPUESTO = J.JUGADORES";
 		 try {
 			    stmt = this.conn.createStatement();
 			    rs = stmt.executeQuery(query);
@@ -84,7 +84,11 @@ public class BDAdministrador extends BDConnection {
 			    {
 			    	Rechazado rechazado = new Rechazado();
 			    	rechazado.setJugadorProponedor(bdjugador.obtenerJugador(rs.getInt("DNIPROPONEDOR")));
-			    	rechazado.setJugadorPropuesto(bdjugador.obtenerJugador(rs.getInt("DNIPROPUESTO")));
+			    	rechazado.setDNI(rs.getInt("DNIPROPUESTO"));
+			    	rechazado.setEdad(rs.getInt("EDAD"));
+			    	rechazado.setNombre(rs.getString("NOMBRE"));
+			    	rechazado.setApellido(rs.getString("APELLIDO"));
+			    	rechazado.setFechaNacimiento(rs.getDate("FECHANACIMIENTO"));
 			    	rechazado.setFecha(rs.getDate("FECHA"));
 			    	rechazado.setMotivo(rs.getNString("MOTIVO"));
 			    	
@@ -134,7 +138,12 @@ public class BDAdministrador extends BDConnection {
 			    {
 			    	Rechazado rechazado = new Rechazado();
 			    	rechazado.setJugadorProponedor(bdjugador.obtenerJugador(rs.getInt("DNIPROPONEDOR")));
-			    	rechazado.setJugadorPropuesto(bdjugador.obtenerJugador(rs.getInt("DNIPROPUESTO")));
+			    	//rechazado.setJugadorPropuesto(bdjugador.obtenerJugador(rs.getInt("DNIPROPUESTO")));
+			    	rechazado.setDNI(rs.getInt("DNIPROPUESTO"));
+			    	rechazado.setEdad(rs.getInt("EDAD"));
+			    	rechazado.setNombre(rs.getString("NOMBRE"));
+			    	rechazado.setApellido(rs.getString("APELLIDO"));
+			    	rechazado.setFechaNacimiento(rs.getDate("FECHANACIMIENTO"));
 			    	rechazado.setFecha(rs.getDate("FECHA"));
 			    	rechazado.setMotivo(rs.getNString("MOTIVO"));
 			    	
@@ -246,7 +255,7 @@ public class BDAdministrador extends BDConnection {
 				e1.printStackTrace();
 			}
 			
-		    String query = "select * from jugadoresparaparobar jp where jp.APROBADO != 1";
+		    String query = "select * from jugadoresparaparobar jp where jp.APROBADO != 1 and jp.APROBADO !=2";
 		    try {
 		    stmt = this.conn.createStatement();
 		    rs = stmt.executeQuery(query);
@@ -390,7 +399,7 @@ public class BDAdministrador extends BDConnection {
 		
 		Statement stmt = null;
 		ResultSet rs;
-	    String query = "DELETE FROM jugadoresparaparobar where jugadores = " + dNI;
+	    String query = "UPDATE jugadoresparaparobar SET APROBADO = 2 where jugadores = " + dNI;
 	    try {
 	    stmt = this.conn.createStatement();
 	     rs = stmt.executeQuery(query);
@@ -438,7 +447,11 @@ public class BDAdministrador extends BDConnection {
 			
 			    	
 			    	rechazado.setJugadorProponedor(bdjugador.obtenerJugador(rs.getInt("DNIPROPONEDOR")));
-			    	rechazado.setJugadorPropuesto(bdjugador.obtenerJugador(rs.getInt("DNIPROPUESTO")));
+			    	rechazado.setDNI(rs.getInt("DNIPROPUESTO"));
+			    	rechazado.setEdad(rs.getInt("EDAD"));
+			    	rechazado.setNombre(rs.getString("NOMBRE"));
+			    	rechazado.setApellido(rs.getString("APELLIDO"));
+			    	rechazado.setFechaNacimiento(rs.getDate("FECHANACIMIENTO"));
 			    	rechazado.setFecha(rs.getDate("FECHA"));
 			    	rechazado.setMotivo(rs.getNString("MOTIVO"));
 			    	

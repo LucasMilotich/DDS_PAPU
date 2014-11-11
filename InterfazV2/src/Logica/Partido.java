@@ -225,7 +225,7 @@ boolean empezado = false;
 
 	int cantJugadores = 0;
 	
-	public boolean inscribirA(Jugador jugador, Inscripcion inscripcion) throws SQLException {
+	public boolean inscribirA(Jugador jugador, Inscripcion inscripcion, Administrador admin) throws SQLException {
 		
 		BDInscripciones bdInscripciones = new BDInscripciones();
 		cantJugadores = bdInscripciones.obtenerCantInscripciones(this);
@@ -236,6 +236,8 @@ boolean empezado = false;
 		if (jugadoresEstandar == 10) {
 			//Se cierra el partido (10 jugadores estandar)
 			this.setCerrado(true);
+			admin.getListaPartidosCerrados().add(this);
+			admin.getListaPartidos().remove(this);
 			
 		}
 		
@@ -255,6 +257,8 @@ boolean empezado = false;
 				if (jugadoresEstandar == 10) {
 					//Se cierra el partido (10 jugadores estandar)
 					this.setCerrado(true);
+					admin.getListaPartidosCerrados().add(this);
+					admin.getListaPartidos().remove(this);
 				}
 			
 				Notification.show("Usted ha sido inscripto al partido");
@@ -272,7 +276,7 @@ boolean empezado = false;
 			
 			if (cantJugadores == 10 && jugadoresEstandar < 10){
 				
-				return entraOSale(jugador, inscripcion);
+				return entraOSale(jugador, inscripcion, admin);
 				
 			}
 		
@@ -287,7 +291,7 @@ boolean empezado = false;
 	}
 	
 	
-	public boolean entraOSale(Jugador jugador, Inscripcion inscripcion){
+	public boolean entraOSale(Jugador jugador, Inscripcion inscripcion, Administrador admin){
 		
 		BDInscripciones bdinscr = new BDInscripciones();
 		try {
@@ -310,6 +314,8 @@ boolean empezado = false;
 					
 					bdinscr.actualizarInscripcionNoAceptada(inscrip);
 					inscripcion.setInscripto(true);
+					admin.getListaPartidosCerrados().add(this);
+					admin.getListaPartidos().remove(this);
 					this.getListaDeInscripciones().add(inscripcion);
 					
 					Notification.show("Usted ha sido inscripto al partido");
@@ -336,6 +342,8 @@ boolean empezado = false;
 					
 					bdinscr.actualizarInscripcionNoAceptada(inscrip);
 					inscripcion.setInscripto(true);
+					admin.getListaPartidosCerrados().add(this);
+					admin.getListaPartidos().remove(this);
 					this.getListaDeInscripciones().add(inscripcion);
 					
 					Notification.show("Usted ha sido inscripto al partido");
@@ -367,6 +375,8 @@ boolean empezado = false;
 					
 					bdinscr.actualizarInscripcionNoAceptada(inscrip);
 					inscripcion.setInscripto(true);
+					admin.getListaPartidosCerrados().add(this);
+					admin.getListaPartidos().remove(this);
 					this.getListaDeInscripciones().add(inscripcion);
 					
 					Notification.show("Usted ha sido inscripto al partido");

@@ -40,7 +40,7 @@ public class InterfazDarmeDeBaja extends VerticalLayout implements View,Interfaz
 		comboLayout.addComponents(nombreCombo,partidosInscriptos);
 		comboLayout.setSpacing(true);
 		listener.bindiarAmigosACombo(listener.obtenerAmigos(listener.getJugador()), jugadoresDeReemplazo);
-		listener.bindiarListaPartidoACombo(listener.obtenerPartidosInscriptos(), partidosInscriptos, null);
+		listener.bindiarListaPartidoACombo(listener.obtenerPartidosInscriptosParaMostrarBaja(), partidosInscriptos, null);
 		
 		 partidosInscriptos.setItemCaptionPropertyId("nombre");
 		 jugadoresDeReemplazo.setItemCaptionPropertyId("nombre");
