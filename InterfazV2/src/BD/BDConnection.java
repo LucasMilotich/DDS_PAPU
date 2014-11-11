@@ -16,7 +16,7 @@ import Logica.Partido;
 public class BDConnection {
 	
 	String user = "system";
-	String password = "system";
+	String password = "Windows706";
 	Connection conn;
 	
 	public Connection getConnection() throws SQLException {

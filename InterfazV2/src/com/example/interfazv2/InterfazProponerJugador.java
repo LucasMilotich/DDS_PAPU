@@ -41,9 +41,12 @@ public class InterfazProponerJugador extends VerticalLayout implements View, Int
 		campoDNI.setPropertyDataSource(DNI);
 		final DateField campoFecha = new DateField ("Fecha De Nacimiento");
 		Button confirmar = new Button("Confirmar nuevo jugador",this)	;
-		layout.addComponents(partidosAnotados,campoDNI,nombre,apellido,campoEdad,campoFecha,confirmar);
+		ComboBox tipoInscripcion = new ComboBox("Tipo de inscripción: ");
+		layout.addComponents(partidosAnotados,campoDNI,nombre,apellido,campoEdad,campoFecha,tipoInscripcion,confirmar);
 		
-		
+		tipoInscripcion.addItem("Estandar");
+		tipoInscripcion.addItem("Solidario");
+		tipoInscripcion.addItem("Condicional");
 		
 		confirmar.addClickListener(new ClickListener() {
 			
@@ -51,6 +54,9 @@ public class InterfazProponerJugador extends VerticalLayout implements View, Int
 			public void buttonClick(ClickEvent event) {
 				// TODO Auto-generated method stub	@Override
 				
+				//SI EL PRESENTER ADMITE EL VALOR DEL COMBO,
+				//PONES IF(tipoInscripcion.getValue().toString() == "Partidos cerrados")
+				// Y LE PASAS EL TIPO DE INSCRIPCIÓN O NO SE COMO LO VAN A MANEJAR
 				
 			            listener.proponerNuevoJugador(nombre.getValue(),apellido.getValue(),
 			            		DNI.getValue(),edad.getValue(), campoFecha.getValue(),(Partido) partidosAnotados.getValue(),listener.getAdmin(),listener.getJugador());
