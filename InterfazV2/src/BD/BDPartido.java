@@ -576,6 +576,32 @@ public class BDPartido extends BDConnection {
 
 	}
 
+	public void cambiarEstAbierto(Partido partido) {
+
+		int id = this.obtenerIDPartido(partido.getNombre(), partido.getLugar(),
+				partido.getFecha());
+
+		Statement stmt = null;
+		String query = "update PARTIDOS set CERRADO=0 where ID=" + id;
+		try {
+			stmt = this.conn.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			System.out.println(rs);
+
+		} catch (SQLException e) {
+			System.out.println(e);
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
 	public void cambiarEstCerrado(Partido partido) {
 
 		int id = this.obtenerIDPartido(partido.getNombre(), partido.getLugar(),
