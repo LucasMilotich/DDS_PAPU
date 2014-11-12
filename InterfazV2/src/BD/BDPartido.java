@@ -659,8 +659,8 @@ public class BDPartido extends BDConnection {
 				partido.getFecha());
 
 		Statement stmt = null;
-		String query = "delete from jugadores_partido where partido =" + id
-				+ "and jugadores = " + jugador.getDNI();
+		String query = "delete from inscripciones where partido =" + id
+				+ "and jugador = " + jugador.getDNI();
 		try {
 			stmt = this.conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
@@ -723,7 +723,7 @@ public class BDPartido extends BDConnection {
 		BDJugador dbJugador = null;
 
 		Statement stmt = null;
-		String query = "select * from jugadores_partido where partido = "
+		String query = "select * from inscripciones where partido = "
 				+ this.obtenerIDPartido(partido.getNombre(),
 						partido.getLugar(), partido.getFecha());
 		try {
@@ -758,10 +758,10 @@ public class BDPartido extends BDConnection {
 		BDJugador dbJugador = null;
 
 		Statement stmt = null;
-		String query = "select * from jugadores_partido where partido = "
+		String query = "select * from inscripciones where partido = "
 				+ this.obtenerIDPartido(partido.getNombre(),
 						partido.getLugar(), partido.getFecha())
-				+ " and confirmado= 1";
+				+ " and INSCRIPCIONACEPTADA= 1";
 		try {
 			stmt = this.conn.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
