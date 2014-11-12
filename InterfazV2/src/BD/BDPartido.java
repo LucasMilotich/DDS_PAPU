@@ -770,7 +770,7 @@ public class BDPartido extends BDConnection {
 				dbJugador = new BDJugador();
 				dbJugador.getConnection();
 				Jugador jugador = dbJugador.obtenerJugador(rs
-						.getInt("JUGADORES"));
+						.getInt("JUGADOR"));
 				jugadores.add(jugador);
 
 			}
