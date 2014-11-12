@@ -268,7 +268,7 @@ public class Jugador extends ObservableJugadores implements Serializable {
 			Inscripcion inscrip = null;
 			while (iterator.hasNext()) {
 				inscrip = iterator.next();
-				if (inscrip.isInscripto() == true && inscrip.getPartido().isCerrado() == false && 
+				if (inscrip.isInscripto() == true &&  
 						inscrip.getPartido().isConfirmado() == false && inscrip.getPartido().isEmpezado() == false && 
 						inscrip.getPartido().isTerminado() == false)
 					lista.add(inscrip.getPartido());

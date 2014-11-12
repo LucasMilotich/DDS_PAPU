@@ -42,11 +42,11 @@ public class InterfazProponerJugador extends VerticalLayout implements View, Int
 		final DateField campoFecha = new DateField ("Fecha De Nacimiento");
 		Button confirmar = new Button("Confirmar nuevo jugador",this)	;
 		ComboBox tipoInscripcion = new ComboBox("Tipo de inscripción: ");
-		layout.addComponents(partidosAnotados,campoDNI,nombre,apellido,campoEdad,campoFecha,tipoInscripcion,confirmar);
+		layout.addComponents(partidosAnotados,campoDNI,nombre,apellido,campoEdad,campoFecha/*,tipoInscripcion*/,confirmar);
 		
-		tipoInscripcion.addItem("Estandar");
+		/*tipoInscripcion.addItem("Estandar");
 		tipoInscripcion.addItem("Solidario");
-		tipoInscripcion.addItem("Condicional");
+		tipoInscripcion.addItem("Condicional");*/
 		
 		confirmar.addClickListener(new ClickListener() {
 			

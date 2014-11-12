@@ -37,6 +37,7 @@ import BD.BDAmigo;
 import BD.BDConnection;
 import BD.BDInscripciones;
 import BD.BDJugador;
+import BD.BDPartido;
 import BD.BDPenalizaciones;
 import Logica.Administrador;
 import Logica.Amigo;
@@ -208,13 +209,15 @@ public class InterfazPresenter implements InterfazVistas.ViewListener {
 	public void darDeBaja(Partido partido, Jugador Reemplazo)
 			throws SQLException {
 		// TODO Auto-generated method stub
-
+		BDPartido bdPartido  = new BDPartido();
+		bdPartido.getConnection();
+		
 		
 		if (Reemplazo != null) {
 			Inscripcion inscripcion = null;
 			Iterator<Inscripcion> iterator = this.getJugador()
 					.getListaDeInscripciones().iterator();
-			Inscripcion insAux;
+			Inscripcion insAux = null;
 			while (iterator.hasNext()) {
 				insAux = iterator.next();
 				if (insAux.getJugador() == this.getJugador()
@@ -231,7 +234,18 @@ public class InterfazPresenter implements InterfazVistas.ViewListener {
 				}
 
 			}
+			
 			this.jugador.bajaDeUn(partido);
+			if(partido.isCerrado() == true){
+				
+				bdPartido.cambiarEstAbierto(partido);
+				partido.setCerrado(false);
+				this.getAdmin().getListaPartidosCerrados().remove(partido);
+				this.getAdmin().getListaPartidos().add(partido);
+				partido.getListaDeInscripciones().remove(insAux);
+				
+			}
+			
 			Reemplazo.inscribirseAUn(partido, inscripcion, admin);
 			Notification.show("Has sido dado de baja sin penalización");
 		} else {
@@ -249,6 +263,37 @@ public class InterfazPresenter implements InterfazVistas.ViewListener {
 				bdJugador.actualizarTuvoInfracciones(jugador.getDNI());
 				jugador.getPenalizaciones().add(penalizacion);
 				jugador.setTuvoInfracciones("SI");
+				if(partido.isCerrado() == true){
+					
+					bdPartido.cambiarEstAbierto(partido);
+					//borro de partidos abiertos
+					Iterator<Partido> iteratorPartido = this.getAdmin().getListaPartidosCerrados().iterator();
+					while(iteratorPartido.hasNext()){
+						Partido partidoLista  = iteratorPartido.next();
+						
+						if( partidoLista.getNombre() == partido.getNombre() && partidoLista.getLugar() == partido.getLugar()){
+							this.getAdmin().getListaPartidosCerrados().remove(partidoLista);
+							bdPartido.cambiarEstAbierto(partidoLista);
+							this.getAdmin().getListaPartidos().add(partidoLista);
+							partidoLista.setCerrado(false);
+							break;
+						}
+					}
+					bdPartido.cambiarEstAbierto(partido);
+					partido.setCerrado(false);
+				}
+				
+				Iterator<Inscripcion> inscripciones = partido.getListaDeInscripciones().iterator();
+				while(inscripciones.hasNext()){
+					Inscripcion inscrip = inscripciones.next();
+					if(inscrip.getJugador().getDNI() == jugador.getDNI()){
+						partido.getListaDeInscripciones().remove(inscrip);
+						break;
+					}
+					
+				}
+				
+				
 				Notification.show("La penalización ha sido creada");
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -256,7 +301,7 @@ public class InterfazPresenter implements InterfazVistas.ViewListener {
 				Notification.show("Hubo un error", Type.ERROR_MESSAGE);
 			}
 			
-			
+			bdPartido.cambiarEstAbierto(partido);
 			this.jugador.bajaDeUn(partido);
 			Notification.show("Has sido dado de baja y serás multado");
 		}
@@ -873,6 +918,10 @@ if(amigoDni != jugadorDNI){
 			}
 			container.addNestedContainerProperty("jugador.nombre");
 			container.addNestedContainerProperty("jugador.apellido");
+			container.addNestedContainerProperty("partido.nombre");
+			container.addNestedContainerProperty("partido.fecha");
+			container.addNestedContainerProperty("partido.lugar");
+			container.addNestedContainerProperty("partido.hora");
 			tabla.setContainerDataSource(container);
 
 			
