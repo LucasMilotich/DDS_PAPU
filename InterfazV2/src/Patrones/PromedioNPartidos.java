@@ -33,6 +33,19 @@ public class PromedioNPartidos extends GeneradorEquiposTentativos {
 		List<Partido> ultimosPartidos;
 		Partido unPartido = null;
 		
+		BDPartido bd =new BDPartido();
+		//traigo todas las calificaciones de la base
+		try {
+			bd.getConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+		e.printStackTrace();
+		}
+				
+		List<Calificacion> listaCalificaciones = new ArrayList<Calificacion>();
+		listaCalificaciones = bd.obtenerTodasLasCalificaciones();
+		
+		
 		Iterator<Jugador> iteradorJugadores = partido.getJugadoresSeleccionados().iterator();
 		while(iteradorJugadores.hasNext()){
 			jugador= iteradorJugadores.next();
@@ -46,19 +59,8 @@ public class PromedioNPartidos extends GeneradorEquiposTentativos {
 			Iterator<Partido> iteradorDePartidos = ultimosPartidos.iterator();
 			while(iteradorDePartidos.hasNext()){
 				unPartido = iteradorDePartidos.next();
-			
 				
-				BDPartido bd =new BDPartido();
-				try {
-					bd.getConnection();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				
-				List<Calificacion> listaCalificaciones = new ArrayList<Calificacion>();
-				listaCalificaciones = bd.obtenerCalificacionesPorPartidoID (unPartido);;
+				String nombreUltPartido = unPartido.getNombre();
 				
 				if(unPartido == null){
 					//nunca jugo un partido, asi que prom 0
@@ -73,7 +75,8 @@ public class PromedioNPartidos extends GeneradorEquiposTentativos {
 						Iterator<Calificacion> iteradorDeCalificaciones = listaCalificaciones.iterator();
 						while(iteradorDeCalificaciones.hasNext()){
 							calificacion = iteradorDeCalificaciones.next();
-							if(calificacion.getJugadorCalificado().getDNI() == jugador.getDNI()){
+							if(calificacion.getJugadorCalificado().getDNI() == jugador.getDNI() 
+									&& calificacion.getPartido().getNombre().compareTo(nombreUltPartido) == 0){
 								++cantidadDeVecesCalificado;
 								puntajeTotal = puntajeTotal + calificacion.getPuntaje();
 							}
@@ -117,8 +120,13 @@ public class PromedioNPartidos extends GeneradorEquiposTentativos {
 		}
 		Collections.sort(partidos, ultimoPartido);
 		
-		if(partidos.size() > 0){
+		if(partidos.size() > 0 && partidos.size() >= n){
 			for(int i=0; i<n; i++){
+				nPartidos.add(partidos.get(i));
+			}
+		}
+		if (partidos.size() > 0){
+			for(int i=0; i<partidos.size(); i++){
 				nPartidos.add(partidos.get(i));
 			}
 		}

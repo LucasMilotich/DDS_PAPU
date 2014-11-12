@@ -558,7 +558,7 @@ public class InterfazPresenter implements InterfazVistas.ViewListener {
 if(cantidadPartidos != null){
 		strategia.setPartido(partido);
 		strategia.generarListaTentativa(cantidadPartidos);
-} else Notification.show("Por favor complete la cantidad de partidos a evaluar. Si el método es handicap, ingrese 0",Type.ERROR_MESSAGE);
+} else Notification.show("Por favor complete la cantidad de partidos a evaluar. Si el método es handicap o prom último partido, ingrese 0",Type.ERROR_MESSAGE);
 
 	}
 

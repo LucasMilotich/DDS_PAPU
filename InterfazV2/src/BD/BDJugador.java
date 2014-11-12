@@ -167,8 +167,10 @@ public class BDJugador extends BDConnection
 			e1.printStackTrace();
 		}
 		
-	    String query = "select * from jugadores where DNI in (select JUGADORES from jugadores_partido where partido=" +  
-	    bdPartido.obtenerIDPartido(partido.getNombre(), partido.getLugar(), partido.getFecha())+ " and confirmado= 1)";  
+		
+		String query = "select * from jugadores where DNI in (select JUGADOR from inscripciones where INSCRIPCIONACEPTADA = 1 and PARTIDO = "
+				+ bdPartido.obtenerIDPartido(partido.getNombre(), partido.getLugar(), partido.getFecha()) + ")";
+
 	    try {
 	    stmt = this.conn.createStatement();
 	     rs = stmt.executeQuery(query);

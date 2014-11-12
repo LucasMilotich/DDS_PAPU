@@ -35,6 +35,19 @@ public class promedioUtilmoPartido extends GeneradorEquiposTentativos {
 		Jugador jug = null;
 		Partido ultPartido = null;
 		
+		//traigo todas las calificaciones de la base
+		try {
+			bd.getConnection();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		List<Calificacion> listaCalificaciones = new ArrayList<Calificacion>();
+		listaCalificaciones = bd.obtenerTodasLasCalificaciones();
+		
+		
+		
 		Iterator<Jugador> iterator = partido.getJugadoresSeleccionados().iterator();
 		while(iterator.hasNext()){
 			jug = iterator.next();
@@ -49,16 +62,7 @@ public class promedioUtilmoPartido extends GeneradorEquiposTentativos {
 			}
 			else {
 				
-				try {
-					bd.getConnection();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				List<Calificacion> listaCalificaciones = new ArrayList<Calificacion>();
-				listaCalificaciones = bd.obtenerCalificacionesPorPartidoID (ultPartido);
-				
+				String nombreUltPartido = ultPartido.getNombre();
 				
 				//iterar partido y buscar calificaciones
 				if(listaCalificaciones.size() > 0){
@@ -69,7 +73,8 @@ public class promedioUtilmoPartido extends GeneradorEquiposTentativos {
 					Iterator<Calificacion> iteradorDeCalificaciones = listaCalificaciones.iterator();
 					while(iteradorDeCalificaciones.hasNext()){
 						calificacion = iteradorDeCalificaciones.next();
-						if(calificacion.getJugadorCalificado().getDNI() == jug.getDNI()){
+						if(calificacion.getJugadorCalificado().getDNI() == jug.getDNI() 
+								&& calificacion.getPartido().getNombre().compareTo(nombreUltPartido) == 0){
 							++cantidadDeVecesCalificado;
 							puntajeTotal = puntajeTotal + calificacion.getPuntaje();
 						}
@@ -93,7 +98,7 @@ public class promedioUtilmoPartido extends GeneradorEquiposTentativos {
 					promedioObj.setJugador(jug);
 					listaDePromedios.add(promedioObj);
 				}
-
+			
 			}
 
 		}

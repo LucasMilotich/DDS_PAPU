@@ -787,6 +787,8 @@ public class BDPartido extends BDConnection {
 			}
 		}
 	}
+	
+	//en prom ult partido no lo uso mas, estoy probando de hacerlo mas optimo
 	public List<Calificacion> obtenerCalificacionesPorPartidoID(Partido partido){
 		
 		List<Calificacion> calificaciones = new ArrayList<Calificacion>();
@@ -942,6 +944,50 @@ public class BDPartido extends BDConnection {
 
 	}
 	
+	public List<Calificacion> obtenerTodasLasCalificaciones(){
+		
+		BDPartido bdPartido = new BDPartido();
+		try {
+			bdPartido.getConnection();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	
+		List<Calificacion> calificaciones = new ArrayList<Calificacion>();
+		BDJugador bdJugador = new BDJugador();
+		
+		Statement stmt = null;
+		ResultSet rs;
+		String query = "select * from calificaciones";
+		
+		try {
+			bdJugador.getConnection();
+			stmt = this.conn.createStatement();
+			rs = stmt.executeQuery(query);
+			
+			for (int i=1; rs.next(); i++) {
+				Calificacion calificacion = new Calificacion();
+				calificacion.setJugadorCalificado(bdJugador.obtenerJugador(rs.getInt("JUGADORCALIFICADO")));
+				calificacion.setJugadorCalificador(bdJugador.obtenerJugador(rs.getInt("JUGADORCALIFICADOR")));
+				calificacion.setPartido(bdPartido.obtenerPartidoPorId((Integer)rs.getInt("PARTIDO")));
+				calificacion.setPuntaje(rs.getInt("PUNTAJE"));
+				calificaciones.add(calificacion);
+			}
+		} catch (SQLException e) {
+			System.out.println(e);
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return calificaciones;
+	}
 	
 }
